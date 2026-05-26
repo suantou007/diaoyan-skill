@@ -21,99 +21,39 @@ description: "Create Lark/Feishu documents for product competitor research from 
 - 不把普通功能拆解自动升级成完整竞品调研；只有用户选择完整报告或明确要求竞品调研/敏捷研究时，才做外部网络调研。
 - 输出要服务产品判断，不只是罗列功能。每个功能点都要说明“它解决什么问题、流程如何表现、对竞争有什么意义”。
 
-## 前置依赖
+## 前置配置
 
-| 依赖 | 用途 | 检查 | 安装 |
-|---|---|---|---|
-| ffmpeg / ffprobe | 从录屏中提取视频帧和高清截图 | `ffmpeg -version` | `brew install ffmpeg` |
-| Python 3 | 生成飞书文档构建脚本、处理素材 | `python3 --version` | macOS 通常已预装 |
-| lark-cli | 创建/更新飞书文档、插入图片、管理权限 | `lark-cli --version` | `npm install -g @larksuite/cli` |
-| lark-doc skill | 飞书文档创建、更新、插图 | `lark-cli docs +create --help` | `npx skills add larksuite/cli -g -y` |
-| lark-shared skill | 飞书认证、身份切换、权限处理 | 读取 `~/.claude/skills/lark-shared/SKILL.md` | `npx skills add larksuite/cli -g -y` |
+运行前只确认一次依赖，分为必需能力和可选增强；除非用户明确选择本地化兼容，不要扫描或安装可选增强。
 
-首次配置：
+### 必需能力
+
+| 能力 | 用途 | 安装 / 更新 |
+|---|---|---|
+| ffmpeg / ffprobe | 从录屏中提取视频帧和高清截图 | `brew install ffmpeg` |
+| Python 3 | 生成飞书文档构建脚本、处理素材 | macOS 通常已预装；检查 `python3 --version` |
+| lark-cli + lark skills | 创建/更新飞书文档、插入图片、处理授权 | `npm install -g @larksuite/cli`；`npx skills add larksuite/cli -g -y` |
+
+首次使用飞书时：
 
 ```bash
 lark-cli config init --new
 lark-cli auth login --domain drive
 ```
 
+### 可选增强
+
+| 能力 | 用途 | 安装 / 更新 |
+|---|---|---|
+| hv-analysis | 卡兹克横纵分析法，用于完整报告的纵向演化 + 横向竞品对比 | `npx skills add https://github.com/KKKKhazix/khazix-skills -g -y --skill hv-analysis` |
+| tavily-search | Tavily 官方搜索 skill，用于完整报告的实时网络搜索 | `npx skills add https://github.com/tavily-ai/skills -g -y --skill tavily-search`；已安装时可用 `npx skills update tavily-search -g -y` |
 
 ## 本地化兼容（可选）
 
-当用户说“本地化兼容”“采用和作者一样的 skill 进行分析”“适配本地 skill”“用我本地已有 skill”或类似表达时，启用这个可选流程。不要默认执行安装或扫描；只有用户明确选择后才处理本地环境。
+只有用户明确选择“本地化兼容”“采用和作者一样的 skill 进行分析”“适配本地 skill”“用我本地已有 skill”或类似表达时，才启用这个流程。
 
-### 两种模式
-
-向用户提供两个选择：
-
-1. **采用和作者一样的 skill 进行分析**：尽量同步作者本地配置，补齐 hv-analysis、tavily-search，并更新 Lark 能力。
-2. **适配本地 skill**：不强制安装新 skill，优先读取本机已下载的 skill，做工具平替和自适应处理，并明确告诉用户本次适配结果。
-
-### 模式一：采用和作者一样的 skill 进行分析
-
-让分析链路尽量接近作者本地配置：
-
-- 使用 **卡兹克的 hv-analysis 横纵分析法** 强化完整报告的纵向演化和横向竞品对比。
-- 使用 **tavily-search / Tavily CLI** 做实时网络搜索，提升信息源覆盖和稳定性。
-- 将 **lark-cli / lark skills** 更新到最新，减少飞书文档、插图和授权失败。
-
-#### 执行步骤
-
-1. **告知用户将进行本地环境同步**：这会安装或更新本机 Claude skills / CLI 工具，但不会改动项目业务代码。
-2. **检查本地 skill 是否存在**：
-   - `~/.claude/skills/hv-analysis/SKILL.md`
-   - `~/.claude/skills/tavily-search/SKILL.md`
-   - `~/.claude/skills/lark-doc/SKILL.md`
-   - `~/.claude/skills/lark-shared/SKILL.md`
-3. **更新 Lark 能力到最新版本**：
-
-   ```bash
-   npx skills add larksuite/cli -g -y
-   ```
-
-4. **补齐 tavily-search**：如果 `tavily-search` 或 `tvly` 不存在，按 tavily-search skill 的安装说明安装 Tavily CLI 并完成登录。
-5. **补齐 hv-analysis**：如果 `hv-analysis` 不存在，先尝试通过当前环境的 skill 管理器安装；如果无法从短名解析安装源，向用户索要该 skill 的仓库或安装来源，不要猜测 URL。
-6. **应用到报告**：
-   - 飞书功能拆解：仍保持轻量，不强行引入完整横纵分析。
-   - 完整报告：可增加“横纵分析”视角，将产品纵向发展、当下竞品横向对比和交叉洞察写入竞争判断。
-
-### 模式二：适配本地 skill
-
-当用户选择“适配本地 skill”时，不要安装作者同款依赖。先读取本机已存在的 skill，并建立能力映射。
-
-#### 执行步骤
-
-1. **扫描本地 skill**：查看 `~/.claude/skills/` 下与本任务相关的 skill 名称和说明，重点关注：
-   - 搜索：`tavily-search`、`web-access`、WebSearch/WebFetch 等。
-   - 飞书：`lark-doc`、`lark-markdown`、`lark-drive`、`lark-shared`。
-   - 研究方法：`hv-analysis` 或其他深度研究/竞品分析类 skill。
-   - 浏览器/网页交互：`agent-browser`、`webapp-testing` 等。
-2. **做平替选择**：
-   - 有 `tavily-search` 时优先用于网络搜索；没有则使用环境中可用的 web/search 工具。
-   - 有 `lark-doc` 时优先创建飞书文档；只有 `lark-markdown` 时可先生成飞书 Markdown，再提示能力差异。
-   - 有 `hv-analysis` 时，完整报告可引入横纵分析视角；没有时用普通竞品分析结构替代。
-3. **告诉用户自适应结果**：开始正式分析前，用简短列表说明：
-   - 本次使用了哪些本地 skill。
-   - 哪些作者同款能力缺失，已用什么能力平替。
-   - 哪些能力无法平替，会影响报告哪一部分。
-4. **把自适应写入交付说明**：最终返回飞书链接时，再补一句“本次本地化适配情况”，方便用户知道报告是如何生成的。
-
-#### 自适应说明模板
-
-```text
-本次已适配本地 skill：
-- 搜索：使用 tavily-search / web-access / WebSearch（按实际情况填写）
-- 飞书：使用 lark-doc / lark-markdown（按实际情况填写）
-- 研究方法：使用 hv-analysis / 未检测到，采用内置竞品分析结构替代
-- 缺失能力：...，影响：...
-```
-
-### 边界
-
-- 本地化兼容是可选增强，不是运行本 Skill 的前置条件。
-- 如果用户只是要快速飞书功能拆解，不要为了“作者同款”或“本地适配”把任务升级成重型完整研究。
-- “适配本地 skill”不安装新东西，只做能力发现、平替和说明；“作者同款”才安装或更新依赖。
+- **采用和作者一样的 skill 进行分析**：直接检查并安装/更新全部可选增强能力，包括 `hv-analysis`、`tavily-search`，同时用 `npx skills add larksuite/cli -g -y` 更新 Lark 能力。
+- **适配本地 skill**：先扫描 `~/.claude/skills/` 和 `~/.agents/skills/` 下的本地 skill，优先使用已有的搜索、飞书、研究方法类能力做平替；如果没有可替代能力，再安装对应可选增强，并告诉用户本次用了哪些本地能力、补装了哪些能力、仍缺什么能力。
+- 飞书功能拆解保持轻量，不因为本地化兼容升级成完整报告；完整报告可以使用 `hv-analysis` 增加横纵分析视角，使用 `tavily-search` 增强外部信息检索。
 - 安装或登录 Tavily、Lark 可能需要用户交互；遇到交互式登录时，让用户在当前会话中用 `! <command>` 执行。
 
 ## Phase 0：前置信息收集
