@@ -71,3 +71,4 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 
 如果要做一份给同事 / 老板看的正式报告，在本地 evidence assets 完成后，再参考 [reference_doc_structure.md](reference_doc_structure.md)。
 如果要把飞书做得像正式成品，再结合 [lark_report_design.md](lark_report_design.md) 与 [lark_report_skeleton.md](lark_report_skeleton.md)。
+如果拿不准该用哪个飞书组件，再看 [lark_component_guide.md](lark_component_guide.md)。

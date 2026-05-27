@@ -159,6 +159,7 @@ intake 聚焦在产品、问题和交付条件上，不要让用户去手动选�
 
 具体做法见 [references/lark_publishing.md](references/lark_publishing.md)。
 飞书正式版报告的设计规范与骨架模板见 [references/lark_report_design.md](references/lark_report_design.md) 与 [references/lark_report_skeleton.md](references/lark_report_skeleton.md)。
+飞书组件什么时候用，见 [references/lark_component_guide.md](references/lark_component_guide.md)。
 
 关键规则：
 
