@@ -1,6 +1,6 @@
 ---
 name: product-competitor-research
-version: 2.8.0
+version: 2.8.1
 description: "Create Lark/Feishu documents for product competitor research from recordings, product links, and user notes. Use this skill whenever the user asks for 竞品调研, 竞品分析, 产品调研, 功能拆解, 飞书功能拆解, 完整竞品报告, 敏捷研究, product competitor research, competitor analysis, product feature breakdown, product demo review, or wants a shareable Lark/Feishu report based on a product demo or recording. This skill intentionally supports only two output modes: Feishu feature breakdown and full Feishu competitor report."
 ---
 
@@ -18,6 +18,7 @@ description: "Create Lark/Feishu documents for product competitor research from 
 - 只输出飞书/Lark 文档，不把最终交付降级成纯聊天总结、Markdown 报告或单独画板。
 - 先确认用户要的是“飞书功能拆解”还是“完整报告”；如果用户已经说清楚，直接进入对应流程。
 - 录屏强烈建议但不阻塞：没有录屏也继续做，只是跳过视频抽帧和截图配对。
+- **图片识别必须把截图/视频帧作为图片传给具备视觉能力的模型读取，一定不能使用 OCR、截图文字抽取、Tesseract 或纯文件名/时间戳推断来替代视觉识别。**
 - 不把普通功能拆解自动升级成完整竞品调研；只有用户选择完整报告或明确要求竞品调研/敏捷研究时，才做公司、融资、定价、用户评价等外部调研。
 - 区分信息来源：视频观察、产品官网/公开资料、用户补充、分析判断不要混在一起。
 - 输出要服务产品判断，不只是罗列功能。每个功能点都要说明它解决什么问题、流程如何表现、对竞争有什么意义。
@@ -330,6 +331,8 @@ ffmpeg -i "<video_path>" -vf "fps=1/10,scale=1280:-1" -q:v 3 /tmp/competitor_fra
 
 `fps=1/10` 表示每 10 秒 1 帧。15 分钟视频大约得到 90 帧。
 
+**识别 survey frames 时必须直接把图片文件传给视觉模型阅读画面；一定不能使用 OCR 或把图片转成文字后再猜测 UI/功能。**
+
 读帧时识别不同功能，并为每个功能记录：
 
 1. **功能名**：简洁、描述性强。
@@ -377,9 +380,9 @@ ffmpeg -ss <TIMESTAMP> -i "<video_path>" -frames:v 1 -q:v 1 /tmp/competitor_anal
 
 `-q:v 1` 表示近无损 JPEG。检查文件大小，低于 5KB 的图片很可能损坏，需要换时间戳重新提取。
 
-### 关键要求：必须读回每张截图
+### 关键要求：必须把图片传给模型读回
 
-**始终 read back 每张提取出来的高清截图**，确认它真的展示了对应功能的正确 UI 状态。10 秒间隔的 survey frames 只是近似定位，用户可能在两个采样点之间已经滚动或切换页面。
+**始终把每张提取出来的高清截图作为图片传给具备视觉能力的模型 read back**，确认它真的展示了对应功能的正确 UI 状态。**一定不能使用 OCR、截图文字抽取或 Tesseract 替代图片识别。** 10 秒间隔的 survey frames 只是近似定位，用户可能在两个采样点之间已经滚动或切换页面。
 
 常见失败模式：
 
@@ -655,7 +658,7 @@ Callout 内部换行折叠是已知 lark-cli 限制。内容仍可读时接受�
 - [ ] 飞书文档已创建并返回链接。
 - [ ] Executive Summary callout 有竞争判断，不只是中性描述。
 - [ ] 没有单独的“优势与不足总结”章节；竞争判断集中在 callout。
-- [ ] 录屏存在时，每张截图都已读回并确认匹配功能描述。
+- [ ] 录屏存在时，每张截图都已作为图片传给视觉模型读回并确认匹配功能描述；没有使用 OCR 替代图片识别。
 - [ ] 核心功能与截图一一对应，图片没有集中在文档末尾。
 - [ ] 主功能合并为 5-7 个，通常不超过 10 个。
 - [ ] 标题是洞察型标题，而不是简单功能标签。
