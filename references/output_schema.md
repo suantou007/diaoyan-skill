@@ -1,6 +1,8 @@
 # 输出结构
 
-默认交付物是一套**本地 research package**。
+更好的交付物是：**飞书文档**或**本地 HTML 报告**。
+
+默认先保留一套本地资产，用来支持这两种交付。
 
 ## 推荐目录结构
 
@@ -9,45 +11,42 @@
 ├── frames_10s/
 ├── contact_sheets/   # 可选
 ├── selected_screenshots/
-├── notes.md
+├── notes.html
 └── analysis_manifest.json
 ```
 
-## `notes.md` 建议结构
+## `notes.html`
 
-可以按下面格式写：
+本地兜底交付统一使用 `notes.html`，不要再输出 `notes.md`。
 
-```markdown
-# <产品名>
+生成的 HTML 报告应与下列逻辑结构一致：
 
-- Official URL:
-- Source video:
-- Analysis date:
+```text
+<产品名>
 
-## 1. 执行摘要
-
-## 2. 产品快照
-
-## 3. 证据型功能拆解
-
-### 3.1 <功能标题>
-- Timestamp:
-- Screenshot:
-- Observed in video:
-- Confirmed on web:
-- Inference / open question:
-- Competitive significance:
-
-## 4. 核心工作流 / 用户路径
-
-## 5. 定价 / 套餐
-
-## 6. 市场或评论信号
-
-## 7. 未确认问题与开放问题
-
-## 8. 素材路径
+1. 执行摘要
+2. 产品快照
+3. 证据型功能拆解
+   3.1 <功能标题>
+   - Timestamp
+   - Screenshot
+   - Observed in video
+   - Confirmed on web
+   - Inference / open question
+   - Competitive significance
+4. 核心工作流 / 用户路径
+5. 定价 / 套餐
+6. 市场或评论信号
+7. 未确认问题与开放问题
+8. 素材路径
 ```
+
+HTML 不需要过度复杂，但应具备基本可读性，例如：
+
+- 清晰标题层级
+- 截图与说明对应
+- 明显区分“视频观察 / 网页确认 / 推断”
+- 能直接交付给人阅读，而不是只是机器中间产物
 
 ## `analysis_manifest.json`
 

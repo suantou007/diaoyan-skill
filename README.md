@@ -1,10 +1,10 @@
 # diaoyan-skill
 
-> Skill 名称仍为 `product-competitor-research`，但仓库发布名已统一为 `diaoyan-skill`，方便记忆与分发。
+> 仓库发布名为 `diaoyan-skill`；skill 内部名保留为 `product-competitor-research`，以兼容已有触发语义。
 
 一个用于**产品录屏竞品调研**的证据型 skill。
 
-它会先浏览视频、提取稳定截图、核验关键网页信息、沉淀本地 research package，再在需要时把结果发布成一份更正式的 Lark 文档。
+它会先浏览视频、提取稳定截图、核验关键网页信息、沉淀本地证据资产，然后**默认优先交付飞书文档**；如果当前环境不适合飞书，再退回到本地 HTML 报告。
 
 ## 它能做什么
 
@@ -12,15 +12,22 @@
 - **提取稳定截图**：围绕关键时刻选出可靠画面，而不是只相信一张脆弱的单帧截图
 - **做网页核验**：用官方来源确认产品名、定价、套餐、文档、功能命名、发布时间等关键信息
 - **补充市场背景**：在需要时补充评论、公司背景、融资、流量和竞品信号
-- **保留本地输出**：即使不发布文档，也会留下可复查的截图、笔记和结构化 manifest
-- **可选发布到 Lark**：只有在分析完成后，才把结果整理成对外展示的文档
+- **保留本地输出**：即使飞书暂时不可用，也会留下可复查的截图、`notes.html` 和结构化 manifest
+- **默认优先飞书交付**：默认使用 `--as user` 输出飞书文档；飞书不可用时再退回本地 HTML
 
-## 默认输出物
+## 推荐交付物
+
+更好的交付物优先级：
+
+1. **飞书文档**
+2. **本地 HTML 报告**（`notes.html`）
+
+## 默认输出资产
 
 - `frames_10s/`
 - `contact_sheets/`（可选）
 - `selected_screenshots/`
-- `notes.md`
+- `notes.html`
 - `analysis_manifest.json`
 
 ## 安装
@@ -40,7 +47,7 @@ npx skills add suantou007/diaoyan-skill -g -y
 | lark-cli | `npm install -g @larksuite/cli` |
 | lark-cli skills | `npx skills add larksuite/cli -g -y` |
 
-如果需要发布到 Lark，首次配置：
+如果需要第一次配置飞书：
 
 ```bash
 lark-cli config init --new
@@ -57,7 +64,7 @@ Watch this recording and tell me what the product actually does
 分析这个竞品视频，重点看 agent workflow 和定价
 ```
 
-这个 skill 会补问缺失的信息，例如产品 URL、最关注的问题，以及最终结果是保留在本地还是发布到 Lark。
+这个 skill 会补问缺失的信息，例如产品 URL、最关注的问题，以及当前环境是否能正常输出飞书；如果不能，就自动退回本地 HTML。
 
 ## 命名说明
 

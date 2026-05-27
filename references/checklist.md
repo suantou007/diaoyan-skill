@@ -22,12 +22,14 @@
 ## 本地保存
 
 - frames 和 selected screenshots 已保存到持久化目录
-- `notes.md` 已生成
+- `notes.html` 已生成
 - `analysis_manifest.json` 已生成
 - 最终回复里写明了本地输出路径
 
-## 可选的 Lark 发布
+## 飞书发布
 
+- 飞书输出默认使用 `--as user`
 - 本地分析已经完成后才开始发布
 - 截图发布时没有默认带 caption
-- 最终 Lark 内容与本地 evidence package 保持一致
+- 最终飞书内容与本地证据资产保持一致
+- 如果飞书不可用，已正确退回到 `notes.html`

@@ -1,23 +1,23 @@
 ---
 name: product-competitor-research
-version: 3.0.0
-description: "基于产品演示录屏与定向网页校验做竞品调研，产出带时间戳、截图、已确认事实、开放问题，以及可选 Lark 发布的证据型研究结果。适用于 competitor analysis、product video research、敏捷研究、竞品调研、竞品分析、feature evidence extraction，或用户提供 .mp4/.mov/.webm 录屏并希望获得结构化结论的场景。"
+version: 3.1.0
+description: "基于产品演示录屏与定向网页校验做竞品调研，产出带时间戳、截图、已确认事实、开放问题的证据型研究结果，并优先交付为飞书文档或本地 HTML。适用于 competitor analysis、product video research、敏捷研究、竞品调研、竞品分析、feature evidence extraction，或用户提供 .mp4/.mov/.webm 录屏并希望获得结构化结论的场景。"
 ---
 
 # 基于录屏的产品竞品调研
 
-> 对外仓库名为 `diaoyan-skill`；skill 内部名保留为 `product-competitor-research` 以兼容既有触发语义。
+> 对外仓库名为 `diaoyan-skill`；skill 内部名保留为 `product-competitor-research`，以兼容既有触发语义。
 
 这个 skill 用来把产品演示录屏转成**证据驱动**的竞品研究结果。
 
-默认交付物是**本地 research package**。Lark 文档发布是可选项，而且必须在分析已经完成后再做。
+更好的默认交付物是：**飞书文档**或**本地 HTML 报告**。无论最终交付哪一种，都要保留本地证据资产。
 
 统一采用一条工作流：
 
 1. 先看录屏
 2. 再核验网页信息
 3. 保留本地证据
-4. 按需发布成正式报告
+4. 默认优先输出飞书文档；如果飞书不可用，再输出 `notes.html`
 
 ## 开始前
 
@@ -25,9 +25,9 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 
 - **ffmpeg / ffprobe**：做视频抽帧时必需
 - **Tavily**（`tvly`）或 `tavily-search` skill：做网页校验时必需
-- **lark-cli**、**lark-shared**、**lark-doc**：只有在用户明确要发布到 Lark 时才需要
+- **lark-cli**、**lark-shared**、**lark-doc**：推荐默认输出飞书文档时使用
 
-如果用户没有要求发 Lark，就不要把时间花在 Lark 配置上。
+如果飞书可用，默认优先走飞书，并对创建 / 更新操作使用 `--as user`。如果飞书不可用，再退回本地 HTML，不要因此阻塞分析。
 
 ## 前置 intake
 
@@ -36,9 +36,9 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 - 录屏文件或视频路径
 - 产品名称、官网 URL（如果已知）
 - 用户最关心的问题 / 竞品视角
-- 最终结果是保留在本地，还是要发布到 Lark
+- 当前环境是否能正常输出飞书；如果不能，则自动退回本地 HTML
 
-intake 聚焦在产品、问题和交付方式上，不要把用户引到多种模式选择上。
+intake 聚焦在产品、问题和交付条件上，不要让用户去手动选择“飞书还是本地”这种本该由流程自动处理的事情。
 
 ## 证据规则
 
@@ -60,8 +60,8 @@ intake 聚焦在产品、问题和交付方式上，不要把用户引到多种�
 1. 全局浏览视频
 2. 提取稳定截图
 3. 核验关键网页信息
-4. 生成本地 research package
-5. 按需发布到 Lark
+4. 本地生成报告资产
+5. 默认优先发布到飞书（`--as user`）；若不可用则输出 `notes.html`
 
 ## 阶段 1：全局浏览视频
 
@@ -119,31 +119,33 @@ intake 聚焦在产品、问题和交付方式上，不要把用户引到多种�
 
 在笔记里明确标注每条信息来自哪里。
 
-## 阶段 4：生成本地 research package
+## 阶段 4：本地生成报告资产
 
 结构见 [references/output_schema.md](references/output_schema.md)。
 
-默认应保留一套本地结果，例如：
+默认应保留一套本地资产，例如：
 
 - `frames_10s/`
 - `contact_sheets/`（可选但推荐）
 - `selected_screenshots/`
-- `notes.md`
+- `notes.html`
 - `analysis_manifest.json`
 
-本地 package 是默认交付物；即使暂时不发文档，或者文档发布中断，也不影响调研结果本身可用。
+这些资产用于支持两种更好的交付物：**飞书文档**或 **`notes.html`**。
 
-## 阶段 5：按需发布到 Lark
+## 阶段 5：默认优先发布到飞书，若不可用则输出 HTML
 
-只有在用户明确要求 Lark 文档时才做。具体做法见 [references/lark_publishing.md](references/lark_publishing.md)。
+具体做法见 [references/lark_publishing.md](references/lark_publishing.md)。
 
 关键规则：
 
+- 默认优先输出飞书文档，并对 create / update 操作使用 `--as user`
 - 先在本地完成分析，再开始发布
 - 优先使用 token-first 和最终布局重建
 - 截图默认**不要**使用 `--caption`
 - 如果需要说明文字，把它写成图片下方的普通文本
-- 把 Lark 当作发布层，而不是分析的事实来源
+- 如果飞书不可用，则在本地输出 `notes.html`
+- 把飞书当作发布层，而不是分析的事实来源
 
 如果用户要的是对外展示、给同事或老板看的正式版报告，可以参考 [references/reference_doc_structure.md](references/reference_doc_structure.md)。
 
@@ -168,7 +170,8 @@ intake 聚焦在产品、问题和交付方式上，不要把用户引到多种�
 - 由截图支撑的结论带了时间戳
 - 推断性表述已经标明，或被删除
 - 产品事实优先使用官方来源核验
-- 本地 evidence package 已保存，并在最终回复里写明路径
-- 如果发布了 Lark，它反映的是已经完成的本地分析，而不是边做边拼的草稿
+- 本地 evidence assets 已保存，并在最终回复里写明路径
+- 更好的最终交付是飞书文档或 `notes.html`
+- 如果发布了飞书，它反映的是已经完成的本地分析，而不是边做边拼的草稿
 
 最后做一次 QA 时，使用 [references/checklist.md](references/checklist.md)。
