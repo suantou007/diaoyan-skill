@@ -143,6 +143,7 @@ intake 聚焦在产品、问题和交付条件上，不要让用户去手动选�
 ## 阶段 4：本地生成报告资产
 
 结构见 [references/output_schema.md](references/output_schema.md)。
+`notes.html` 的设计规范与模板见 [references/html_report_design.md](references/html_report_design.md) 与 [assets/notes_template.html](assets/notes_template.html)。
 
 默认应保留一套本地资产，例如：
 

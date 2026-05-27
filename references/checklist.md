@@ -27,6 +27,7 @@
 - `notes.html` 已生成
 - `analysis_manifest.json` 已生成
 - 最终回复里写明了本地输出路径
+- `notes.html` 是可直接阅读的正式页面，而不是简单导出的长文本
 
 ## 飞书发布
 

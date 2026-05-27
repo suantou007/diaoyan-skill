@@ -18,6 +18,7 @@
 ## `notes.html`
 
 本地兜底交付统一使用 `notes.html`，不要再输出 `notes.md`。
+推荐直接基于 [assets/notes_template.html](../assets/notes_template.html) 生成，并参考 [html_report_design.md](html_report_design.md) 的页面规范。
 
 生成的 HTML 报告应与下列逻辑结构一致：
 
@@ -47,6 +48,7 @@ HTML 不需要过度复杂，但应具备基本可读性，例如：
 - 截图与说明对应，且图片放在所属功能标题下、说明文字前
 - 明显区分“视频观察 / 网页确认 / 推断”
 - 能直接交付给人阅读，而不是只是机器中间产物
+- 整体上像一份正式前端报告页面，而不是纯文本 dump
 
 推荐 section 内部顺序：
 
