@@ -1,90 +1,99 @@
-# Reference: Stakeholder-Facing Competitor Report Structure
+# 参考：对外展示版竞品报告结构
 
-Use this only when the user wants a polished published report after the local research package is already complete.
+只有在用户明确要一份正式发布的 polished 报告时，才使用这份参考结构；前提是本地 evidence package 已经完成。
 
-Source: Lark doc `CjfpdyinQo1df5xrQlvl7iTBgnb` — "Topview AI【敏捷研究】"
+来源：Lark 文档 `CjfpdyinQo1df5xrQlvl7iTBgnb` — “Topview AI【敏捷研究】”
 
-This document illustrates what a well-structured competitor agile research (敏捷研究) looks like.
+这份结构展示了一份成熟竞品报告通常该怎么排版与组织内容。
 
-## Document Structure
+## 文档结构
 
-### 1. Executive Summary Callout (light-orange)
+### 1. 执行摘要 Callout（light-orange）
 
-A single callout block at the top that combines positioning AND competitive judgment. This replaces any separate "优势与不足总结" section — put all competitive analysis here so the reader gets the full picture in 10 seconds.
+文档顶部放一个 callout，把产品定位和竞品判断放在一起，不再单独做“优势与不足总结”章节。
 
-Structure (from the makeUGC study, which refined the Topview format):
-- **一句话介绍** — One-line positioning including what's their main play and what's new
-- **核心亮点** — Numbered list (1-3 items) of competitive strengths
-- **对比[our product]的差异和不足** — Numbered list (1-2 items) of key weaknesses vs our product, with `<text color="red">` highlighting critical gaps
+推荐结构：
 
-Key principle: opinionated and comparative, not neutral. The reader should immediately understand whether this competitor is a threat.
+- **一句话介绍**：它是谁做的、服务谁、主打什么
+- **核心亮点**：1–3 条最值得关注的竞争优势
+- **对比[我方产品]的差异和不足**：1–2 条关键短板，重要问题用 `<text color="red">` 标出来
 
-### 2. 公司与团队 (Company & Team)
+关键原则：这里要有观点、有比较，不要写成中性百科介绍。读者应该在 10 秒内看懂这个产品值不值得重视。
 
-#### 基本信息 (Basic Info)
-- Founding year, HQ location
-- Parent company (if any)
-- Funding rounds: amount, lead investors, use of funds
+### 2. 公司与团队
 
-#### 创始人及核心成员 (Founders & Key Members)
-- CEO and CTO backgrounds — previous companies and roles
-- Relevant domain expertise (e.g., "built Alibaba's AI design platform 'Luban'")
+#### 基本信息
 
-#### 用户和客户 (Users & Customers)
-- Website traffic from SimilarWeb (with screenshot)
-- Estimated user count (derived from traffic)
-- Comparison to competitors' traffic
-- Typical customer profiles: enterprise brands + SMB segment
-- Customer logos (with screenshot)
+- 成立时间、总部地点
+- 是否有母公司
+- 融资轮次、金额、领投方、用途
 
-### 3. 产品介绍 (Product Introduction)
+#### 创始人与核心成员
 
-#### 核心功能 (Core Features)
-- Use a **lark-table** with columns: 功能 | 功能描述 | 图片/视频示意
-- Each row is one feature
-- Highlight the standout feature with `<text bgcolor="light-yellow">**Feature Name**</text>`
-- Include personal hands-on testing notes where possible
-- Feature descriptions should be 2-4 sentences, specific about what it does
+- CEO、CTO 或核心团队成员背景
+- 过往公司与角色
+- 与当前产品最相关的领域经验
 
-#### 产品定位和优势 (Positioning & Advantages)
-- 2-3 paragraphs on market positioning
-- Numbered competitive advantages (typically 3)
+#### 用户与客户
 
-#### 售卖方式和定价 (Sales Model & Pricing)
-- Pricing tiers in a **lark-table**: Free | Starter | Business | Enterprise
-- Row dimensions: price, credits, key feature limits, watermark, other features
-- Note API pricing model if applicable
+- SimilarWeb 等来源的流量信号
+- 对用户量的谨慎估计
+- 与其他竞品的流量对比
+- 典型客户类型、已知品牌客户
 
-#### 产品评价 (Product Reviews)
-- Source reviews from **G2**, **ProductHunt**, and other platforms
-- Include both positive and negative reviews
-- Use `<quote-container>` for review quotes (keep them short)
-- Include review screenshots where possible
-- Summarize overall sentiment and common complaints
+### 3. 产品介绍
 
-### 4. Demo Videos
-- Embed original recordings as playable `<file>` in `<view type="2">` wrappers
-- Use `<grid cols="2">` for side-by-side comparisons (reference vs generated output)
-- Readers value watching the demo themselves, not just seeing static screenshots
+#### 核心功能
 
-### 5. Related Links
-- Links to related competitor analysis docs using `<mention-doc>`
+- 推荐用 **lark-table**，列为：功能 | 功能描述 | 图片/视频示意
+- 每一行对应一个核心功能
+- 最突出的功能可以用 `<text bgcolor="light-yellow">` 高亮
+- 有亲自试用结论时可以补进去，但要标清来源
+- 功能描述要具体，不要只写大词
 
-**No separate "优势与不足总结" section.** All competitive judgment goes in the executive summary callout.
+#### 产品定位和优势
 
-## Key Formatting Patterns
+- 2–3 段说明它在市场中的定位
+- 总结 2–3 条关键竞争优势
 
-- **Callout blocks**: `<callout emoji="..." background-color="light-orange">` for summaries
-- **Tables**: `<lark-table>` for feature comparisons and pricing
-- **Image grids**: `<grid cols="2">` with `<column>` for side-by-side images or multi-step flows
-- **Quotes**: `<quote-container>` for user reviews
-- **Highlighting**: `<text bgcolor="light-yellow">` for standout items, `<text color="red">` for critical weaknesses
-- **Embedded videos**: `<view type="2"><file token="..." name="..."/></view>` for playable recordings
-- **Video comparisons**: `<grid cols="2">` with reference video vs output video side-by-side
+#### 售卖方式和定价
 
-## Structural Principles (from production experience)
+- 用 **lark-table** 整理 Free / Starter / Business / Enterprise 等套餐
+- 至少写价格、额度、关键限制、是否带水印、其他差异
+- 如果同时有 API 定价，也要单独说明
 
-- **5-7 main feature sections**, not 10+. Merge related capabilities (e.g., category filtering → bullet under Content Library)
-- **Section titles should describe the insight**, not the feature. "生成时自动弹出文件夹/项目选择器" > "视频生成与积分消耗"
-- **Multi-step flows get grid layouts** with 2-4 screenshots, not a single frame
-- **Plan the full structure before building** — mid-document insertions via delete-rebuild are fragile and risk losing image tokens
+#### 产品评价
+
+- 评价来源可以来自 **G2**、**ProductHunt** 等
+- 同时保留正面和负面反馈
+- 评论引用用 `<quote-container>`
+- 能配截图时更好
+- 最后总结整体口碑与常见抱怨
+
+### 4. Demo 视频
+
+- 原始录屏尽量用可播放的 `<file>` + `<view type="2">` 嵌进去
+- 如果有“输入 vs 输出”对比，适合用 `<grid cols="2">`
+- 读者通常更愿意自己看几段原视频，而不只是看静态截图
+
+### 5. 相关链接
+
+- 可用 `<mention-doc>` 链接到相关分析文档
+
+**不要再单独做“优势与不足总结”章节。** 竞品判断已经放在顶部 callout 里。
+
+## 关键格式模式
+
+- **Callout**：`<callout emoji="..." background-color="light-orange">`
+- **表格**：`<lark-table>`
+- **图片网格**：`<grid cols="2">` + `<column>`
+- **引用**：`<quote-container>`
+- **高亮**：`<text bgcolor="light-yellow">`、`<text color="red">`
+- **视频嵌入**：`<view type="2"><file token="..." name="..."/></view>`
+
+## 结构经验
+
+- **主功能章节控制在 5–7 个**，不要拆得太碎
+- **标题写洞察，不只写名词**，例如“生成时自动弹出项目选择器”优于“视频生成与积分消耗”
+- **多步骤流程使用 2–4 张图的 grid**，不要硬塞成单图
+- **先规划全结构，再发布**，不要一边插图一边修文档结构

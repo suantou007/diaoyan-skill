@@ -1,51 +1,51 @@
 # product-competitor-research
 
-An evidence-backed competitor research skill for product demo recordings.
+一个用于**产品录屏竞品调研**的证据型 skill。
 
-It surveys the video, extracts stable screenshots, verifies key claims on the web, preserves a local research package, and optionally publishes a polished Lark doc after the analysis is done.
+它会先浏览视频、提取稳定截图、核验关键网页信息、沉淀本地 research package，再在需要时把结果发布成一份更正式的 Lark 文档。
 
-## What it does
+## 它能做什么
 
-- **Survey the recording** — map the overall workflow and identify candidate features with timestamps
-- **Extract stable screenshots** — choose reliable frames around key moments instead of trusting one brittle single-frame grab
-- **Verify on the web** — confirm names, pricing, packaging, docs, and release claims on official sources
-- **Add broader context when useful** — reviews, company background, funding, traffic, and competitive signals
-- **Preserve local outputs** — screenshots, notes, and a structured manifest remain available even if no doc is published
-- **Optionally publish to Lark** — only after the local analysis is complete
+- **浏览录屏**：梳理整体工作流，按时间戳识别候选功能
+- **提取稳定截图**：围绕关键时刻选出可靠画面，而不是只相信一张脆弱的单帧截图
+- **做网页核验**：用官方来源确认产品名、定价、套餐、文档、功能命名、发布时间等关键信息
+- **补充市场背景**：在需要时补充评论、公司背景、融资、流量和竞品信号
+- **保留本地输出**：即使不发布文档，也会留下可复查的截图、笔记和结构化 manifest
+- **可选发布到 Lark**：只有在分析完成后，才把结果整理成对外展示的文档
 
-## Default outputs
+## 默认输出物
 
 - `frames_10s/`
-- `contact_sheets/` (optional)
+- `contact_sheets/`（可选）
 - `selected_screenshots/`
 - `notes.md`
 - `analysis_manifest.json`
 
-## Install
+## 安装
 
 ```bash
 npx skills add Candicezsss/product-competitor-research -g -y
 ```
 
-### Prerequisites
+### 前置依赖
 
-| Tool | Install |
+| 工具 | 安装方式 |
 |------|---------|
 | ffmpeg | `brew install ffmpeg` |
-| Tavily CLI | See the `tavily-search` skill / `tvly` setup |
+| Tavily CLI | 参考 `tavily-search` skill / `tvly` 配置 |
 | lark-cli | `npm install -g @larksuite/cli` |
 | lark-cli skills | `npx skills add larksuite/cli -g -y` |
 
-First-time lark-cli setup (only if publishing to Lark):
+如果需要发布到 Lark，首次配置：
 
 ```bash
 lark-cli config init --new
 lark-cli auth login --domain drive
 ```
 
-## Usage
+## 使用方式
 
-Examples:
+例如：
 
 ```text
 帮我做这个产品的视频竞品调研，这是录屏 @/path/to/recording.mp4
@@ -53,12 +53,12 @@ Watch this recording and tell me what the product actually does
 分析这个竞品视频，重点看 agent workflow 和定价
 ```
 
-The skill will gather any missing inputs such as product URL, the main competitive question, and whether the final result should stay local or be published to Lark.
+这个 skill 会补问缺失的信息，例如产品 URL、最关注的问题，以及最终结果是保留在本地还是发布到 Lark。
 
-## Example polished output
+## 参考成品
 
-- [makeUGC.ai — stakeholder report example](https://www.feishu.cn/docx/ANvWdxGdJoQyKAxuXxtuh4XXsxb)
+- [makeUGC.ai — 对外展示版报告示例](https://www.feishu.cn/docx/ANvWdxGdJoQyKAxuXxtuh4XXsxb)
 
-## Trigger phrases
+## 触发词
 
-The skill activates when you mention competitor analysis, competitor research, product video research, 敏捷研究, 竞品调研, 竞品分析, product demo review, or share a `.mp4` / `.mov` / `.webm` file and ask for structured insights.
+当你提到 competitor analysis、competitor research、product video research、敏捷研究、竞品调研、竞品分析、product demo review，或者提供 `.mp4` / `.mov` / `.webm` 录屏并希望得到结构化结论时，这个 skill 就适合被触发。

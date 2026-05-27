@@ -1,36 +1,36 @@
-# Output schema
+# 输出结构
 
-The default deliverable is a **local research package**.
+默认交付物是一套**本地 research package**。
 
-## Recommended folder layout
+## 推荐目录结构
 
 ```text
 <product>_video_analysis/
 ├── frames_10s/
-├── contact_sheets/   # optional
+├── contact_sheets/   # 可选
 ├── selected_screenshots/
 ├── notes.md
 └── analysis_manifest.json
 ```
 
-## `notes.md` structure
+## `notes.md` 建议结构
 
-Use a structure like this:
+可以按下面格式写：
 
 ```markdown
-# <Product name>
+# <产品名>
 
 - Official URL:
 - Source video:
 - Analysis date:
 
-## 1. Executive summary
+## 1. 执行摘要
 
-## 2. Product snapshot
+## 2. 产品快照
 
-## 3. Evidence-backed feature breakdown
+## 3. 证据型功能拆解
 
-### 3.1 <Feature title>
+### 3.1 <功能标题>
 - Timestamp:
 - Screenshot:
 - Observed in video:
@@ -38,20 +38,20 @@ Use a structure like this:
 - Inference / open question:
 - Competitive significance:
 
-## 4. Key workflow / user journey
+## 4. 核心工作流 / 用户路径
 
-## 5. Pricing / packaging
+## 5. 定价 / 套餐
 
-## 6. Market or review signals
+## 6. 市场或评论信号
 
-## 7. Open questions and unverified claims
+## 7. 未确认问题与开放问题
 
-## 8. Asset paths
+## 8. 素材路径
 ```
 
 ## `analysis_manifest.json`
 
-Keep one entry per feature candidate. Minimum fields:
+建议每个候选功能保留一条记录。最低字段如下：
 
 ```json
 {
@@ -90,4 +90,4 @@ Keep one entry per feature candidate. Minimum fields:
 }
 ```
 
-Critical rule: keep `observed_ui`, `confirmed_facts`, and `inferences` separate.
+关键原则：`observed_ui`、`confirmed_facts`、`inferences` 三类信息必须分开。

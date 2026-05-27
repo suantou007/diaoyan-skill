@@ -1,39 +1,39 @@
-# Lark publishing
+# Lark 发布
 
-Only publish to Lark **after** the local research package is already complete.
+只有在**本地 research package 已经完成**后，才开始发布到 Lark。
 
-## Preferred workflow
+## 推荐工作流
 
-1. finish the analysis locally
-2. upload images once and capture tokens
-3. assemble the final Markdown/XML layout offline
-4. create or overwrite the doc in as few write operations as practical
-5. verify final rendering
+1. 先在本地完成分析
+2. 图片上传一次并拿到 token
+3. 在本地组装最终 Markdown / XML 布局
+4. 尽量用少量写操作创建或覆盖文档
+5. 最后检查渲染结果
 
-Do not treat the Lark doc as the working draft.
+不要把 Lark 文档当成工作草稿。
 
-## Default rules
+## 默认规则
 
-- If the user says to use their identity, explicitly pass `--as user`.
-- Prefer token-first publishing and final-layout rebuilds over repeated append loops.
-- Do **not** use `--caption` for screenshots by default; it can create unwanted white space beneath the image.
-- If explanatory text is needed, add it as normal text below the image instead.
-- If `docs +media-insert` is used, pass a **relative path** and run the command with `cwd` set to the image directory.
+- 如果用户要求用自己的身份，显式传 `--as user`
+- 优先用 token-first 和最终布局重建，不要默认走反复 append 的方式
+- 截图默认**不要**用 `--caption`，否则容易在图片下方出现不想要的白边 / 留白
+- 如果需要图片说明，直接把说明写成图片下方普通文本
+- 如果使用 `docs +media-insert`，文件路径必须是**相对路径**，并且命令执行时 `cwd` 要切到图片目录
 
-## Relative-path reminder
+## 相对路径提醒
 
 ```bash
-# Wrong
+# 错误
 lark-cli docs +media-insert --doc "<DOC_ID>" --file "/absolute/path/shot.jpg"
 
-# Better
+# 更稳妥
 cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot.jpg --align center
 ```
 
-## Publishing fallback
+## 发布失败时的兜底
 
-If publishing becomes brittle or noisy, stop live-editing the doc and deliver the local package first. The analysis should remain usable without the doc.
+如果发布过程开始变脆弱、混乱或难以维护，就停止在线编辑，先交付本地 package。调研结果本身不应该依赖文档是否发成功。
 
-## Report structure
+## 报告结构参考
 
-For a polished stakeholder-facing report, use [reference_doc_structure.md](reference_doc_structure.md) after the evidence package is already complete.
+如果要做一份给同事 / 老板看的正式报告，在本地 evidence package 完成后，再参考 [reference_doc_structure.md](reference_doc_structure.md)。

@@ -1,33 +1,33 @@
-# Checklist
+# 检查清单
 
-## Evidence integrity
+## 证据完整性
 
-- Claims shown in video are marked as “observed in video”.
-- Claims verified on the web are marked as “confirmed on web”.
-- Inferences are labeled or removed.
-- Screenshot-backed claims have timestamps.
+- 视频里看到的内容已标成“视频观察”
+- 网页核验过的内容已标成“网页确认”
+- 推断内容已标明，或被删除
+- 凡是由截图支撑的结论都带了时间戳
 
-## Screenshot quality
+## 截图质量
 
-- Chosen screenshots are stable, not transition states.
-- Multi-step flows use multiple images when needed.
-- Screenshot filenames are ordered and descriptive.
+- 选中的截图是稳定画面，不是过渡态
+- 多步流程在需要时使用了多张图
+- 截图文件名有顺序且有意义
 
-## Web verification
+## 网页核验
 
-- Official sources were used for product facts.
-- Pricing and packaging were checked on official pages when relevant.
-- Reviews and market signals are clearly separated from official claims.
+- 产品事实优先使用了官方来源
+- 定价和套餐在相关场景下已查过官方页面
+- 评论和市场信号与官方表述分开写
 
-## Local preservation
+## 本地保存
 
-- Frames and selected screenshots are stored in a persistent folder.
-- `notes.md` exists.
-- `analysis_manifest.json` exists.
-- Final response states the local output path.
+- frames 和 selected screenshots 已保存到持久化目录
+- `notes.md` 已生成
+- `analysis_manifest.json` 已生成
+- 最终回复里写明了本地输出路径
 
-## Optional Lark publishing
+## 可选的 Lark 发布
 
-- Local analysis was finished before publishing.
-- Screenshots were not published with default captions.
-- Final Lark content matches the already-finished local package.
+- 本地分析已经完成后才开始发布
+- 截图发布时没有默认带 caption
+- 最终 Lark 内容与本地 evidence package 保持一致
