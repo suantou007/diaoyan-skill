@@ -9,6 +9,7 @@
 ## 它能做什么
 
 - **浏览录屏**：梳理整体工作流，按时间戳识别候选功能
+- **防止 413 大请求**：内置 `prepare_llm_images.py`，把模型/子 agent 输入图压缩到 `llm_images/`，避免原图 base64 进入会话
 - **提取稳定截图**：围绕关键时刻选出可靠画面，而不是只相信一张脆弱的单帧截图
 - **做网页核验**：用官方来源确认产品名、定价、套餐、文档、功能命名、发布时间等关键信息
 - **补充市场背景**：在需要时补充评论、公司背景、融资、流量和竞品信号
@@ -32,6 +33,7 @@
 - `frames_10s/`
 - `contact_sheets/`（可选）
 - `selected_screenshots/`
+- `llm_images/`
 - `notes.html`
 - `analysis_manifest.json`
 
@@ -48,6 +50,7 @@ npx skills add suantou007/diaoyan-skill -g -y
 | 工具 | 安装方式 |
 |------|---------|
 | ffmpeg | `brew install ffmpeg` |
+| Python Pillow | `python3 -m pip install pillow` |
 | Tavily CLI | 参考 `tavily-search` skill / `tvly` 配置 |
 | lark-cli | `npm install -g @larksuite/cli` |
 | lark-cli skills | `npx skills add larksuite/cli -g -y` |

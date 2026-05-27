@@ -9,8 +9,9 @@
 ```text
 <product>_video_analysis/
 ├── frames_10s/
-├── contact_sheets/   # 可选
+├── contact_sheets/   # 可选；原始/发布用，不直接发模型
 ├── selected_screenshots/
+├── llm_images/       # 模型/子 agent 专用压缩安全图
 ├── notes.html
 └── analysis_manifest.json
 ```
@@ -81,6 +82,9 @@ HTML 不需要过度复杂，但应具备基本可读性，例如：
       "screenshots": [
         "selected_screenshots/03_asset_library.jpg"
       ],
+      "llm_safe_images": [
+        "llm_images/selected_screenshots/03_asset_library.jpg"
+      ],
       "observed_ui": [
         "Left sidebar shows asset categories",
         "Dragging an item places it into the scene"
@@ -101,4 +105,4 @@ HTML 不需要过度复杂，但应具备基本可读性，例如：
 }
 ```
 
-关键原则：`observed_ui`、`confirmed_facts`、`inferences` 三类信息必须分开。
+关键原则：`observed_ui`、`confirmed_facts`、`inferences` 三类信息必须分开。`screenshots` 保存原始证据/发布图，`llm_safe_images` 只记录发给模型或子 agent 的压缩安全图。

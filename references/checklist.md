@@ -7,6 +7,13 @@
 - 推断内容已标明，或被删除
 - 凡是由截图支撑的结论都带了时间戳
 
+## LLM 图像输入安全
+
+- 已运行 `scripts/prepare_llm_images.py` 生成 `llm_images/manifest.json`
+- 发给模型或子 agent 的图片只来自 `llm_images/`
+- 没有发送原始截图、原始 contact sheet、base64 图片或 `detail: "original"`
+- 单次子 agent 输入最多 1–2 张安全图；更长视频已拆批
+
 ## 截图质量
 
 - 选中的截图是稳定画面，不是过渡态
@@ -23,7 +30,7 @@
 
 ## 本地保存
 
-- frames 和 selected screenshots 已保存到持久化目录
+- frames、selected screenshots 和 llm_images 已保存到持久化目录
 - `notes.html` 已生成
 - `analysis_manifest.json` 已生成
 - 最终回复里写明了本地输出路径

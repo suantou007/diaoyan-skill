@@ -1,6 +1,6 @@
 ---
 name: product-competitor-research
-version: 3.1.0
+version: 3.1.1
 description: "基于产品演示录屏与定向网页校验做竞品调研，产出带时间戳、截图、已确认事实、开放问题的证据型研究结果，并优先交付为飞书文档或本地 HTML。适用于 competitor analysis、product video research、敏捷研究、竞品调研、竞品分析、feature evidence extraction，或用户提供 .mp4/.mov/.webm 录屏并希望获得结构化结论的场景。"
 ---
 
@@ -24,6 +24,7 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 只检查当前任务真正需要的工具：
 
 - **ffmpeg / ffprobe**：做视频抽帧时必需
+- **Python Pillow / PIL**：生成 `llm_images/` 安全图时必需；缺失时先安装 `pillow`
 - **Tavily**（`tvly`）或 `tavily-search` skill：做网页校验时必需
 - **lark-cli**、**lark-shared**、**lark-doc**：推荐默认输出飞书文档时使用
 
@@ -97,7 +98,7 @@ intake 聚焦在产品、问题和交付条件上，不要让用户去手动选�
 - 关键时间戳范围
 - 需要进一步核验的模糊点或缺口
 
-建议使用低频抽帧和 contact sheet 快速浏览全片，避免把大量上下文浪费在重复画面上。记录候选功能时，至少写下：
+建议使用低频抽帧和 contact sheet 快速浏览全片，避免把大量上下文浪费在重复画面上。**所有发给模型或子 agent 的截图 / contact sheet 必须先按 `references/video_analysis.md` 生成到 `llm_images/`，不要发送原始大图、不要粘贴 base64、不要使用 `detail: "original"`。**记录候选功能时，至少写下：
 
 - 暂定功能名
 - 时间戳或时间范围
@@ -150,6 +151,7 @@ intake 聚焦在产品、问题和交付条件上，不要让用户去手动选�
 - `frames_10s/`
 - `contact_sheets/`（可选但推荐）
 - `selected_screenshots/`
+- `llm_images/`（给模型/子 agent 阅读的压缩安全图，必须由 `scripts/prepare_llm_images.py` 生成）
 - `notes.html`
 - `analysis_manifest.json`
 
@@ -206,6 +208,7 @@ intake 聚焦在产品、问题和交付条件上，不要让用户去手动选�
 - 推断性表述已经标明，或被删除
 - 产品事实优先使用官方来源核验
 - 本地 evidence assets 已保存，并在最终回复里写明路径
+- 若使用视觉模型或子 agent，确认只发送了 `llm_images/` 内的安全图，且没有 `detail: "original"` / base64 大图进入会话
 - 更好的最终交付是飞书文档或 `notes.html`
 - 如果发布了飞书，它反映的是已经完成的本地分析，而不是边做边拼的草稿
 
