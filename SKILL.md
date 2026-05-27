@@ -6,6 +6,8 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 
 # 基于录屏的产品竞品调研
 
+> 对外仓库名为 `diaoyan-skill`；skill 内部名保留为 `product-competitor-research` 以兼容既有触发语义。
+
 这个 skill 用来把产品演示录屏转成**证据驱动**的竞品研究结果。
 
 默认交付物是**本地 research package**。Lark 文档发布是可选项，而且必须在分析已经完成后再做。

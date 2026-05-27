@@ -1,4 +1,6 @@
-# product-competitor-research
+# diaoyan-skill
+
+> Skill 名称仍为 `product-competitor-research`，但仓库发布名已统一为 `diaoyan-skill`，方便记忆与分发。
 
 一个用于**产品录屏竞品调研**的证据型 skill。
 
@@ -24,8 +26,10 @@
 ## 安装
 
 ```bash
-npx skills add Candicezsss/product-competitor-research -g -y
+npx skills add suantou007/diaoyan-skill -g -y
 ```
+
+如果你是从旧仓库或旧链接迁移过来的，原安装路径 `Candicezsss/product-competitor-research` 已不再作为当前推荐入口。
 
 ### 前置依赖
 
@@ -54,6 +58,13 @@ Watch this recording and tell me what the product actually does
 ```
 
 这个 skill 会补问缺失的信息，例如产品 URL、最关注的问题，以及最终结果是保留在本地还是发布到 Lark。
+
+## 命名说明
+
+- **仓库名**：`diaoyan-skill`
+- **skill 内部名**：`product-competitor-research`
+
+保留内部名是为了兼容已有 skill 触发语义；对外分发、安装和引用仓库时，统一使用 `diaoyan-skill`。
 
 ## 参考成品
 
