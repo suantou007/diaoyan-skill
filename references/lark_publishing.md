@@ -18,6 +18,7 @@
 
 - 默认对所有飞书创建 / 更新操作显式传 `--as user`
 - 优先用 token-first 和最终布局重建，不要默认走反复 append 的方式
+- 飞书报告也应有明确的视觉层级、节奏和版式，不要只追求“信息塞进去”
 - 图片必须出现在**对应功能段落内部**，不要集中追加到文档末尾
 - 单张截图应放在该功能标题下、说明文字前；读者应先看到图，再读解释
 - 如果一个功能对应多步操作或多个稳定 UI 状态，使用 2–4 张图的 `<grid>`，紧跟在该功能标题后，再写文字说明
@@ -69,3 +70,4 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 ## 报告结构参考
 
 如果要做一份给同事 / 老板看的正式报告，在本地 evidence assets 完成后，再参考 [reference_doc_structure.md](reference_doc_structure.md)。
+如果要把飞书做得像正式成品，再结合 [lark_report_design.md](lark_report_design.md) 与 [lark_report_skeleton.md](lark_report_skeleton.md)。

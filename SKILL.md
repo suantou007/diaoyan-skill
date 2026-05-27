@@ -158,6 +158,7 @@ intake 聚焦在产品、问题和交付条件上，不要让用户去手动选�
 ## 阶段 5：默认优先发布到飞书，若不可用则输出 HTML
 
 具体做法见 [references/lark_publishing.md](references/lark_publishing.md)。
+飞书正式版报告的设计规范与骨架模板见 [references/lark_report_design.md](references/lark_report_design.md) 与 [references/lark_report_skeleton.md](references/lark_report_skeleton.md)。
 
 关键规则：
 
