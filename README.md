@@ -1,104 +1,64 @@
-# diaoyan-skill / product-competitor-research
+# product-competitor-research
 
-这是一个面向 **产品竞品调研** 的 Claude Code Skill：把竞品产品录屏、产品链接和用户补充信息整理成可分享的飞书文档。
+An evidence-backed competitor research skill for product demo recordings.
 
-## 当前状态
+It surveys the video, extracts stable screenshots, verifies key claims on the web, preserves a local research package, and optionally publishes a polished Lark doc after the analysis is done.
 
-当前版本已经发布为独立 GitHub 仓库，核心能力聚焦在 **飞书文档产出**，不再覆盖轻量聊天总结、纯 Markdown 输出或画板扩展。现阶段保留两种稳定场景：
+## What it does
 
-1. **飞书功能拆解**：基于录屏/产品信息提取功能点、截图和产品定位，生成轻量飞书文档。
-2. **完整报告**：在功能拆解基础上补充公司背景、团队/融资、定价、用户评价和相关链接，生成完整竞品调研报告。
+- **Survey the recording** — map the overall workflow and identify candidate features with timestamps
+- **Extract stable screenshots** — choose reliable frames around key moments instead of trusting one brittle single-frame grab
+- **Verify on the web** — confirm names, pricing, packaging, docs, and release claims on official sources
+- **Add broader context when useful** — reviews, company background, funding, traffic, and competitive signals
+- **Preserve local outputs** — screenshots, notes, and a structured manifest remain available even if no doc is published
+- **Optionally publish to Lark** — only after the local analysis is complete
 
-适合用于：
+## Default outputs
 
-- 看完竞品 demo 后快速沉淀功能拆解
-- 将录屏中的关键 UI、流程和能力整理成飞书材料
-- 做面向产品决策的竞品研究报告
-- 给团队同步某个新工具、新 Agent 产品或新 AIGC 产品的能力现状
+- `frames_10s/`
+- `contact_sheets/` (optional)
+- `selected_screenshots/`
+- `notes.md`
+- `analysis_manifest.json`
 
-## 能力边界
-
-这个 Skill 目前专注“从信息收集到飞书报告”的工作流：
-
-- 有录屏时，优先从视频中抽取关键帧和功能截图。
-- 有产品链接/公开资料时，完整报告会补充网络调研。
-- 最终交付以飞书文档为主，强调图文对齐、可分享和可继续编辑。
-- 不做自动化商业结论替代；报告中会明确区分“视频观察”“公开资料”和“分析判断”。
-
-## 安装
+## Install
 
 ```bash
-npx skills add suantou007/diaoyan-skill -g -y
+npx skills add Candicezsss/product-competitor-research -g -y
 ```
 
-## 依赖
+### Prerequisites
 
-| 依赖 | 用途 | 安装 |
-|---|---|---|
-| ffmpeg / ffprobe | 从录屏中抽帧、提取高清截图 | `brew install ffmpeg` |
-| Python 3 | 生成飞书文档构建脚本、处理素材 | macOS 通常自带 |
-| lark-cli | 创建/更新飞书文档、插入图片、授权 | `npm install -g @larksuite/cli` |
-| lark-cli skills | 提供 lark-doc / lark-shared 等飞书操作能力 | `npx skills add larksuite/cli -g -y` |
+| Tool | Install |
+|------|---------|
+| ffmpeg | `brew install ffmpeg` |
+| Tavily CLI | See the `tavily-search` skill / `tvly` setup |
+| lark-cli | `npm install -g @larksuite/cli` |
+| lark-cli skills | `npx skills add larksuite/cli -g -y` |
 
-首次使用飞书能力时，需要完成 lark-cli 配置和登录：
+First-time lark-cli setup (only if publishing to Lark):
 
 ```bash
 lark-cli config init --new
 lark-cli auth login --domain drive
 ```
 
+## Usage
 
-## 本地化兼容（可选）
-
-如果你希望更好地匹配本机环境，可以在使用时选择两种本地化方式：
-
-1. **采用和作者一样的 skill 进行分析**：尽量同步作者本地研究链路。
-2. **适配本地 skill**：不强制安装新 skill，而是读取本机已经下载的 skill，做平替和自适应处理。
-
-选择“采用和作者一样的 skill 进行分析”后，Skill 会先检查并同步以下能力：
-
-| 能力 | 用途 | 行为 |
-|---|---|---|
-| 卡兹克的 hv-analysis 横纵分析法 | 为完整报告补充“纵向演化 + 横向竞品对比”的研究框架 | 检查本地是否存在，缺失时引导安装 |
-| tavily-search / Tavily CLI | 提供更稳定的实时网络搜索能力 | 检查 skill 和 CLI，缺失时引导安装与登录 |
-| lark-cli / lark skills | 保证飞书文档创建、插图和授权能力可用 | 执行 `npx skills add larksuite/cli -g -y` 更新到最新 |
-
-选择“适配本地 skill”后，Skill 会扫描本地已有能力，例如搜索、飞书、文档、浏览器自动化、横纵分析等相关 skill，并告诉用户本次做了哪些自适应：用了哪个搜索工具、哪个飞书文档能力、是否启用了横纵分析平替、哪些能力缺失需要人工补齐。
-
-本地化兼容不是默认必选项。普通用户只需要安装基础依赖即可；只有当你希望使用作者同款研究链路，或希望充分利用本机已有 skill 时，再启用。
-
-## 使用方式
-
-直接告诉 Claude 你要做哪类报告，并提供录屏、产品链接或已有笔记：
+Examples:
 
 ```text
-帮我对这个竞品录屏做一个飞书功能拆解：/path/to/demo.mp4
+帮我做这个产品的视频竞品调研，这是录屏 @/path/to/recording.mp4
+Watch this recording and tell me what the product actually does
+分析这个竞品视频，重点看 agent workflow 和定价
 ```
 
-```text
-帮我做完整竞品调研报告，产品是 xxx，这是官网和录屏：...
-```
+The skill will gather any missing inputs such as product URL, the main competitive question, and whether the final result should stay local or be published to Lark.
 
-如果你没有明确选择模式，Skill 会让你在两种模式中选择：
+## Example polished output
 
-| 模式 | 输出 | 适合场景 |
-|---|---|---|
-| 飞书功能拆解 | 产品定位 + 核心功能 + 截图/时间戳 + 初步判断 | 已经知道背景，只想看产品怎么做 |
-| 完整报告 | Executive Summary + 公司/团队 + 功能截图 + 定价 + 用户评价 + 相关链接 | 第一次系统评估一个竞品 |
+- [makeUGC.ai — stakeholder report example](https://www.feishu.cn/docx/ANvWdxGdJoQyKAxuXxtuh4XXsxb)
 
-## 典型输入
+## Trigger phrases
 
-- 产品 demo 录屏：`.mp4` / `.mov` / `.webm`
-- 产品官网、定价页、ProductHunt/G2/Reddit 等公开页面
-- 用户自己的关注点：例如 Agent 架构、生成链路、定价模型、3D 资产生成能力、世界生成能力等
-- 想对比的对象或维度
-
-## 交付物
-
-- 一个飞书文档链接
-- 报告中使用的关键截图和素材
-- 必要时说明信息来源和不确定性
-
-## Roadmap
-
-未来更新计划见 [ROADMAP.md](ROADMAP.md)。
+The skill activates when you mention competitor analysis, competitor research, product video research, 敏捷研究, 竞品调研, 竞品分析, product demo review, or share a `.mp4` / `.mov` / `.webm` file and ask for structured insights.

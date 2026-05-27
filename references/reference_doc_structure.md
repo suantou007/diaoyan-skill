@@ -1,101 +1,90 @@
-# 参考：优秀竞品研究文档结构
+# Reference: Stakeholder-Facing Competitor Report Structure
 
-来源：飞书文档 `CjfpdyinQo1df5xrQlvl7iTBgnb` —「Topview AI【敏捷研究】」
+Use this only when the user wants a polished published report after the local research package is already complete.
 
-本文说明一份结构良好的竞品敏捷研究（敏捷研究）应当是什么样子。
+Source: Lark doc `CjfpdyinQo1df5xrQlvl7iTBgnb` — "Topview AI【敏捷研究】"
 
-## 文档结构
+This document illustrates what a well-structured competitor agile research (敏捷研究) looks like.
 
-仅在**完整敏捷研究 / 完整报告**模式下使用这套结构。轻量聊天笔记、Markdown 功能拆解和飞书功能拆解不应包含公司、定价、评价、融资等章节，除非用户明确要求做竞品研究。
+## Document Structure
 
-### 1. 执行摘要 Callout（light-orange）
+### 1. Executive Summary Callout (light-orange)
 
-文档顶部放一个 callout 块，同时承载产品定位和竞争判断。它替代单独的「优势与不足总结」章节——所有竞争分析都应该放在这里，让读者在 10 秒内看到全貌。
+A single callout block at the top that combines positioning AND competitive judgment. This replaces any separate "优势与不足总结" section — put all competitive analysis here so the reader gets the full picture in 10 seconds.
 
-结构参考 makeUGC 研究，该研究在 Topview 格式基础上做过细化：
-- **一句话介绍** — 用一句话说明产品定位，包括它主打什么、有什么新变化
-- **核心亮点** — 用编号列表写 1-3 条竞争优势
-- **对比[我方产品]的差异和不足** — 用编号列表写 1-2 条相对我方产品的关键短板，关键差距用 `<text color="red">` 高亮
+Structure (from the makeUGC study, which refined the Topview format):
+- **一句话介绍** — One-line positioning including what's their main play and what's new
+- **核心亮点** — Numbered list (1-3 items) of competitive strengths
+- **对比[our product]的差异和不足** — Numbered list (1-2 items) of key weaknesses vs our product, with `<text color="red">` highlighting critical gaps
 
-关键原则：要有观点、要做对比，不要中立罗列。读者应当马上明白这个竞品是否构成威胁。
+Key principle: opinionated and comparative, not neutral. The reader should immediately understand whether this competitor is a threat.
 
-### 2. 公司与团队
+### 2. 公司与团队 (Company & Team)
 
-#### 基本信息
-- 成立年份、总部所在地
-- 母公司或所属组织（如有）
-- 融资轮次：金额、领投方、资金用途
+#### 基本信息 (Basic Info)
+- Founding year, HQ location
+- Parent company (if any)
+- Funding rounds: amount, lead investors, use of funds
 
-#### 创始人及核心成员
-- CEO、CTO 背景：曾任公司和职位
-- 相关领域经验，例如「曾搭建阿里巴巴 AI 设计平台『鲁班』」
+#### 创始人及核心成员 (Founders & Key Members)
+- CEO and CTO backgrounds — previous companies and roles
+- Relevant domain expertise (e.g., "built Alibaba's AI design platform 'Luban'")
 
-#### 用户和客户
-- SimilarWeb 网站流量数据（附截图）
-- 估算用户数（可由流量推算）
-- 与竞品流量的对比
-- 典型客户画像：企业品牌 + SMB 群体
-- 客户 logo（附截图）
+#### 用户和客户 (Users & Customers)
+- Website traffic from SimilarWeb (with screenshot)
+- Estimated user count (derived from traffic)
+- Comparison to competitors' traffic
+- Typical customer profiles: enterprise brands + SMB segment
+- Customer logos (with screenshot)
 
-### 3. 产品介绍
+### 3. 产品介绍 (Product Introduction)
 
-#### 核心功能
-- 当每个功能对应 1-2 张截图时，优先使用 **lark-table**，列为：功能 | 功能描述 | 图片/视频示意
-- 每一行对应一个功能；这是默认模式，因为它能把截图和文字说明稳定绑定在一起
-- 在图片单元格中先放唯一图片锚点，例如 `【IMG_ANCHOR:feature_01_storyboard】`，再用 `docs +media-insert --selection-with-ellipsis` 插入截图
-- 如果某个功能是多步骤流程，不要把多张图硬塞进狭窄表格单元格；改用独立小节，并配合 `<grid cols="2">` 或 `<grid cols="3">`
-- 用 `<text bgcolor="light-yellow">**Feature Name**</text>` 高亮最突出的功能
-- 尽可能加入亲自上手测试的观察
-- 功能描述控制在 2-4 句，要具体说明功能做什么，以及截图证明了什么
+#### 核心功能 (Core Features)
+- Use a **lark-table** with columns: 功能 | 功能描述 | 图片/视频示意
+- Each row is one feature
+- Highlight the standout feature with `<text bgcolor="light-yellow">**Feature Name**</text>`
+- Include personal hands-on testing notes where possible
+- Feature descriptions should be 2-4 sentences, specific about what it does
 
-#### 产品定位和优势
-- 用 2-3 段说明市场定位
-- 用编号列表写竞争优势，通常 3 条
+#### 产品定位和优势 (Positioning & Advantages)
+- 2-3 paragraphs on market positioning
+- Numbered competitive advantages (typically 3)
 
-#### 售卖方式和定价
-- 用 **lark-table** 展示定价层级：Free | Starter | Business | Enterprise
-- 行维度包括：价格、credits、关键功能限制、水印限制、其他功能
-- 如适用，说明 API 定价模式
+#### 售卖方式和定价 (Sales Model & Pricing)
+- Pricing tiers in a **lark-table**: Free | Starter | Business | Enterprise
+- Row dimensions: price, credits, key feature limits, watermark, other features
+- Note API pricing model if applicable
 
-#### 产品评价
-- 从 **G2**、**ProductHunt** 和其他平台收集评价
-- 同时包含正面评价和负面评价
-- 用 `<quote-container>` 放评价摘录，引用要短
-- 尽可能附评价截图
-- 总结整体情绪和常见抱怨
+#### 产品评价 (Product Reviews)
+- Source reviews from **G2**, **ProductHunt**, and other platforms
+- Include both positive and negative reviews
+- Use `<quote-container>` for review quotes (keep them short)
+- Include review screenshots where possible
+- Summarize overall sentiment and common complaints
 
-### 4. 演示视频
-- 将原始录屏作为可播放的 `<file>` 嵌入 `<view type="2">` 容器中
-- 用 `<grid cols="2">` 做左右对比，例如参考视频 vs 生成结果
-- 读者很看重能自己观看 demo，而不只是看静态截图
+### 4. Demo Videos
+- Embed original recordings as playable `<file>` in `<view type="2">` wrappers
+- Use `<grid cols="2">` for side-by-side comparisons (reference vs generated output)
+- Readers value watching the demo themselves, not just seeing static screenshots
 
-### 5. 结构化画板（可选）
-- 当分析需要展示关系，而不只是展示证据截图时，使用飞书/Lark 画板
-- 适合使用画板的场景包括：产品能力地图、生成链路、Agent 工作流、用户旅程、竞争定位结构、漏斗、时间线和因果链路
-- 先生成 `diagram.svg`，再通过 `@larksuite/whiteboard-cli` 转成 OpenAPI JSON，并写入飞书画板
-- 当用户需要可编辑画板时，不要只把 SVG 当普通图片插入；画板才是主交付物
-- 覆盖已有画板前，先运行 `whiteboard +update --overwrite --dry-run`；如果 dry-run 显示已有节点会被删除，写入前必须获得用户确认
+### 5. Related Links
+- Links to related competitor analysis docs using `<mention-doc>`
 
-### 6. 相关链接
-- 使用 `<mention-doc>` 链接相关竞品分析文档
+**No separate "优势与不足总结" section.** All competitive judgment goes in the executive summary callout.
 
-**不要单独设置「优势与不足总结」章节。** 所有竞争判断都放在执行摘要 callout 里。
+## Key Formatting Patterns
 
-## 关键格式模式
+- **Callout blocks**: `<callout emoji="..." background-color="light-orange">` for summaries
+- **Tables**: `<lark-table>` for feature comparisons and pricing
+- **Image grids**: `<grid cols="2">` with `<column>` for side-by-side images or multi-step flows
+- **Quotes**: `<quote-container>` for user reviews
+- **Highlighting**: `<text bgcolor="light-yellow">` for standout items, `<text color="red">` for critical weaknesses
+- **Embedded videos**: `<view type="2"><file token="..." name="..."/></view>` for playable recordings
+- **Video comparisons**: `<grid cols="2">` with reference video vs output video side-by-side
 
-- **Callout 块**：摘要使用 `<callout emoji="..." background-color="light-orange">`
-- **表格**：核心功能行和定价使用 `<lark-table>`；图片单元格中使用锚点，避免截图和文字错位
-- **图片网格**：左右对比图片或多步骤流程使用 `<grid cols="2">` 搭配 `<column>`
-- **引用**：用户评价使用 `<quote-container>`
-- **高亮**：突出项使用 `<text bgcolor="light-yellow">`，关键短板使用 `<text color="red">`
-- **嵌入视频**：可播放录屏使用 `<view type="2"><file token="..." name="..."/></view>`
-- **视频对比**：参考视频与输出视频并排对比时使用 `<grid cols="2">`
-- **画板**：先生成 SVG 结构图，再转换为飞书/Lark 画板内容，用于可编辑的关系图
+## Structural Principles (from production experience)
 
-## 结构原则（来自生产经验）
-
-- **主功能章节控制在 5-7 个**，不要超过 10 个。合并相关能力，例如把分类筛选合并为 Content Library 下的 bullet
-- **章节标题应描述洞察，而不是只写功能名**。「生成时自动弹出文件夹/项目选择器」优于「视频生成与积分消耗」
-- **多步骤流程使用网格布局**，放 2-4 张截图，不要只放单帧
-- **关系结构使用画板**，尤其是读者需要一眼理解模块依赖、工作流转换或竞争定位时
-- **构建前先规划完整结构**：先在文档骨架中写入稳定图片锚点，再用 `--selection-with-ellipsis` 插入媒体；中途删除并重建文档片段仍然脆弱，容易丢失图片 token
+- **5-7 main feature sections**, not 10+. Merge related capabilities (e.g., category filtering → bullet under Content Library)
+- **Section titles should describe the insight**, not the feature. "生成时自动弹出文件夹/项目选择器" > "视频生成与积分消耗"
+- **Multi-step flows get grid layouts** with 2-4 screenshots, not a single frame
+- **Plan the full structure before building** — mid-document insertions via delete-rebuild are fragile and risk losing image tokens
