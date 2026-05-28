@@ -11,7 +11,7 @@
 - 浏览录屏并按时间戳梳理候选功能
 - 通过 `prepare_llm_images.py` 避免大图导致的 `413 Payload Too Large`
 - 提取稳定截图并保留本地证据包
-- 默认用 Tavily 做官网 / 文档 / 定价页核验
+- 默认用 Tavily 做官网 / 文档 / 定价页核验；Tavily 没抓到的关键字段继续补 WebSearch
 - 在正式竞品分析中运行时检索用户 skill 库（如 `hv-analysis`）补强研究质量
 - 强制覆盖正式报告结构，而不是只做功能流水账
 - 在飞书里按 `diagram_workflow.md` 输出可编辑图示
@@ -50,7 +50,7 @@ npx skills add suantou007/diaoyan-skill -g -y
 | Python Pillow | `python3 -m pip install pillow` |
 | lark-cli | `npm install -g @larksuite/cli` |
 
-默认网页核验必须使用 Tavily；`web-access` 只作为动态页面 / 登录态补抓的补充工具。默认正式交付必须发布到飞书。
+默认网页核验必须先使用 Tavily；Tavily 没抓到关键事实时继续补 WebSearch，`web-access` 只作为动态页面 / 登录态补抓的补充工具。默认正式交付必须发布到飞书。
 
 ## 适用场景
 

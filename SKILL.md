@@ -83,12 +83,12 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，默
 - pricing / plans
 - changelog / release notes / blog（视频明显展示新功能时）
 
-默认必须使用 **Tavily CLI（`tvly`）** 做这些查询。不要把内置 WebSearch / `web.run` 当默认方案。只有当：
+默认必须使用 **Tavily CLI（`tvly`）** 做这些查询。不要把内置 WebSearch / `web.run` 当默认方案。但如果 Tavily 没抓到关键事实，尤其是**价格、套餐额度、关键限制、具体日期**，就必须继续补：
 
-- 用户明确允许降级；或
-- Tavily 只能找到 URL，但需要登录态 / 强动态页面补抓
+- 先补 **内置 WebSearch / `web.run`**
+- 页面强动态或需要登录态时，再补 `web-access`
 
-才可以额外补 `web-access`；这时 Tavily 仍应作为默认搜索入口。
+也就是说：**Tavily 是默认入口，不是唯一来源。关键事实没抓到时，不能停在“未抓到”。**
 
 ### 4. 本地交付资产
 
@@ -128,6 +128,7 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，默
 - `reference_doc_structure.md` 的模块都覆盖了
 - `skills_consulted` 已记录实际使用 / 跳过 / unavailable
 - 网页核验默认实际使用了 Tavily；如果没有，已记录用户明确批准的降级原因
+- Tavily 没抓到的关键事实（如价格、套餐额度、关键限制、日期）已继续用 WebSearch / `web.run` 或 `web-access` 补齐，或明确记录“补查后仍未找到”
 - 图示按 `diagram_workflow.md` 放进对应章节，而不是堆到末尾
 - 飞书文档已实际创建并返回链接；如果没有，已记录用户明确批准的降级原因
 - 最终 QA 对照 `references/checklist.md`

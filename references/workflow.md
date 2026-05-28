@@ -47,6 +47,10 @@
 
 只有用户明确同意降级，才允许不用 Tavily 或不发飞书。
 
+补充规则：
+
+- **Tavily 是默认入口，不是唯一来源。** 如果 Tavily 没抓到关键事实，尤其是价格、套餐额度、限制、日期、具体数字，就必须继续补 WebSearch / `web.run`；如果页面是强动态或需要登录态，再补 `web-access`。
+
 ## 3. 运行时调研 Skill 选择
 
 以下任一情况满足时，必须先检索用户 skill 库：
@@ -64,7 +68,8 @@
 补充规则：
 
 - `web-access` 不是默认搜索入口；只有 Tavily 已找到线索，但需要登录态 / 动态页面补抓时再调用
-- manifest 里要把 Tavily 的使用情况写清楚，避免出现“skill 说默认 Tavily，实际偷偷换成别的搜索”
+- `web.run` / WebSearch 是 **Tavily 之后的补足层**：当 Tavily 没抓到关键事实时，应继续补查
+- manifest 里要把 Tavily 与 WebSearch / `web-access` 的分工写清楚，避免出现“skill 说默认 Tavily，实际偷偷换成别的搜索”或“明明没查到还假装查全了”
 
 原则：
 
@@ -161,7 +166,7 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>" --no-g
 - selected screenshots
 - `llm_images/manifest.json`
 
-## 5. 网页核验（默认必须用 Tavily）
+## 5. 网页核验（默认 Tavily，关键缺口必须继续补）
 
 最低核验集合：
 
@@ -203,6 +208,30 @@ tvly search "\"<company_or_product>\" founder funding" --max-results 8 --json
 - 再用 `web-access` 做补抓
 - 在 manifest 里把二者的分工写清楚
 
+### Tavily 没抓到时怎么补
+
+只要遇到下面这些高价值字段，就不能因为 Tavily 没返回而直接停下：
+
+- 价格
+- 套餐额度 / credits / limits
+- 关键限制（是否带水印、导出限制、seat、API 有无）
+- 具体发布日期 / 更新日期
+- 公司关键数字
+
+补查顺序：
+
+1. **先 Tavily**
+2. **再 WebSearch / `web.run`**
+3. **最后 `web-access`**（仅强动态页面 / 登录态必需时）
+
+如果补到最后还是没有，就显式写：
+
+- `Tavily 未抓到`
+- `WebSearch 已补查`
+- `仍未找到可靠来源`
+
+不要只写一个模糊的“未抓到”。
+
 ## 6. 本地输出
 
 推荐目录结构：
@@ -230,21 +259,21 @@ tvly search "\"<company_or_product>\" founder funding" --max-results 8 --json
 1. 封面 / Hero
 2. 执行摘要
 3. 公司与团队 / 产品快照
-4. 证据型功能拆解
+4. 产品介绍表格（功能 / 描述 / 图片证据 / 时间戳 / 来源）
 5. 核心工作流 / 用户路径
 6. 纵向演进
 7. 横向对比
 8. 开放问题 / 未确认项 / 相关链接
 
-每个功能 section 内部顺序固定：
+默认不要再做一个单独的大型“证据型功能拆解”章节，把图片集中堆放在后面。更推荐：
 
-1. 标题
-2. 图片或图片组
-3. 时间戳
-4. 视频观察
-5. 网页确认
-6. 推断 / 开放问题
-7. 竞争意义
+- **直接在产品介绍 / 核心功能表格中放图**
+- 图片紧贴它对应的功能行或功能小节
+- 图片旁边或图片下方直接写备注，说明“这张图在证明什么”
+
+也就是说，默认结构应是：
+
+`功能 | 说明 | 图片证据（带备注） | 时间戳 / 来源`
 
 ### 6.2 `analysis_manifest.json`
 
@@ -341,6 +370,8 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 - `scripts/prepare_llm_images.py` 已跑过，发给模型的图只来自 `llm_images/`
 - `skills_consulted` 已记录实际使用 / 跳过 / unavailable
 - Tavily 已作为默认搜索入口实际执行；如果没有，已记录用户明确批准的降级原因
+- Tavily 没抓到的价格 / 套餐 / 限制等关键事实，已继续用 WebSearch / `web.run` 补查
+- 图片没有被单独堆成一个“证据拆解”大章节；而是出现在对应表格 / 对应功能位置，并带有明确备注说明图片作用
 - 适用图示已按 `diagram_workflow.md` 放入对应章节
 - 本地目录里已生成 `notes.html` 与 `analysis_manifest.json`
 - 飞书文档已创建并拿到链接；如果没有，已记录用户明确批准的降级原因
