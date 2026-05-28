@@ -171,8 +171,13 @@ intake 聚焦在产品、问题和交付条件上，不要让用户去手动选�
 ## 阶段 5：默认优先发布到飞书，若不可用则输出 HTML
 
 具体做法见 [references/lark_publishing.md](references/lark_publishing.md)。
-飞书正式版报告的信息结构必须先按 [references/reference_doc_structure.md](references/reference_doc_structure.md) 收集整理；设计规范与骨架模板见 [references/lark_report_design.md](references/lark_report_design.md) 与 [references/lark_report_skeleton.md](references/lark_report_skeleton.md)。
-飞书组件什么时候用，见 [references/lark_component_guide.md](references/lark_component_guide.md)。需要流程、时间线、架构或竞品关系时，必须读取并使用 [references/diagram_workflow.md](references/diagram_workflow.md)。
+发布飞书时，默认只需要抓住 3 份核心文档：
+
+1. [references/reference_doc_structure.md](references/reference_doc_structure.md) —— 报告必须覆盖什么信息
+2. [references/diagram_workflow.md](references/diagram_workflow.md) —— 什么时候该补图、怎么用飞书画板
+3. [references/lark_report_skeleton.md](references/lark_report_skeleton.md) —— 飞书正文的大致骨架与图文顺序
+
+不要在飞书写法上反复查很多文件；优先把这 3 份用好。只有在非常拿不准组件用法时，再额外看 `references/lark_component_guide.md`。
 
 关键规则：
 
