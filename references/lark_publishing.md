@@ -2,15 +2,15 @@
 
 默认优先发布到飞书，并对所有 create / update 操作使用 **`--as user`**。
 
-前提是：本地报告资产已经完成。
+前提是：本地报告资产已经完成，并且已经按 `reference_doc_structure.md` 完整收集整理。飞书是正式交付，不是简版摘要。
 
 ## 推荐工作流
 
-1. 先在本地完成分析
-2. 图片上传一次并拿到 token
-3. 在本地组装最终 Markdown / XML 布局
-4. 尽量用少量写操作创建或覆盖文档
-5. 最后检查渲染结果
+1. 先在本地完成分析，并覆盖 `reference_doc_structure.md` 的所有模块
+2. 读取 `diagram_workflow.md`，规划工作流图、时间线图、竞品关系/能力地图中适用的图
+3. 图片和图示上传一次并拿到 token；流程/时间线/关系图优先用飞书画板
+4. 在本地组装最终 Markdown / XML 布局，按结构一次性创建或少量分段写入
+5. 最后检查渲染结果、图示位置和截图位置
 
 不要把飞书文档当成工作草稿。
 
@@ -18,6 +18,7 @@
 
 - 默认对所有飞书创建 / 更新操作显式传 `--as user`
 - 优先用 token-first 和最终布局重建，不要默认走反复 append 的方式
+- 飞书报告必须完整覆盖 `reference_doc_structure.md`：执行摘要、公司团队、用户/客户/流量、核心功能、定位优势、定价、评价、Demo、链接；缺失项写明“未找到/未核验”
 - 飞书报告也应有明确的视觉层级、节奏和版式，不要只追求“信息塞进去”
 - 图片必须出现在**对应功能段落内部**，不要集中追加到文档末尾
 - 单张截图应放在该功能标题下、说明文字前；读者应先看到图，再读解释
@@ -67,8 +68,6 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 
 如果当前环境无法正常输出飞书，或者发布过程开始变脆弱、混乱或难以维护，就停止在线编辑，先交付 `notes.html` 和本地证据资产。调研结果本身不应该依赖飞书是否发成功。
 
-## 报告结构参考
+## 报告结构要求
 
-如果要做一份给同事 / 老板看的正式报告，在本地 evidence assets 完成后，再参考 [reference_doc_structure.md](reference_doc_structure.md)。
-如果要把飞书做得像正式成品，再结合 [lark_report_design.md](lark_report_design.md) 与 [lark_report_skeleton.md](lark_report_skeleton.md)。
-如果拿不准该用哪个飞书组件，再看 [lark_component_guide.md](lark_component_guide.md)。
+飞书交付默认就是正式报告：必须使用 [reference_doc_structure.md](reference_doc_structure.md) 作为信息架构；结合 [diagram_workflow.md](diagram_workflow.md) 规划画板/图示；再用 [lark_report_design.md](lark_report_design.md)、[lark_report_skeleton.md](lark_report_skeleton.md) 和 [lark_component_guide.md](lark_component_guide.md) 做版式与组件选择。
