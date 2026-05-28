@@ -18,14 +18,34 @@
 - 产品名
 - 官网 URL（已知则直接用）
 - 用户最关心的问题 / 竞品视角
-- 飞书是否可用；不可用则自动退回 HTML
+- Tavily 是否可用；不可用时不要静默换 WebSearch，先问用户要不要安装/配置 Tavily
+- 飞书是否可用；不可用时不要静默退回 HTML，先问用户要不要配置/刷新飞书 CLI
 
 只检查当前任务真正需要的工具：
 
 - `ffmpeg` / `ffprobe`
 - `python3` + Pillow
-- `tavily-search` 或 `web-access`
-- `lark-cli` / `lark-doc`（准备发布飞书时）
+- `tvly`（默认网页核验必须用）
+- `lark-cli` / `lark-doc`（默认正式交付必须用）
+
+### 默认规则：Tavily + 飞书
+
+正式运行时，默认链路必须是：
+
+1. **Tavily 搜索 / 核验**
+2. **飞书文档交付**
+
+禁止默认行为：
+
+- 没有 Tavily 就直接改用内置 WebSearch / `web.run`
+- 没有飞书就直接只产出 `notes.html`
+
+正确行为：
+
+- `tvly` 缺失、未登录、网络不可用、鉴权失败 → **先问用户要不要现在安装/配置 Tavily**
+- `lark-cli` 缺失、用户身份未授权、token 刷新失败、权限不通 → **先问用户要不要现在配置/刷新飞书 CLI**
+
+只有用户明确同意降级，才允许不用 Tavily 或不发飞书。
 
 ## 3. 运行时调研 Skill 选择
 
@@ -38,8 +58,13 @@
 默认优先级：
 
 1. `hv-analysis`：补强纵向演进、横向对比、横纵交汇洞察
-2. `tavily-search` 或 `web-access`：网页检索和动态页面核验
+2. `tavily-search`：默认网页检索与来源发现
 3. `lark-whiteboard`：把流程图 / 时间线 / 关系图写进飞书画板
+
+补充规则：
+
+- `web-access` 不是默认搜索入口；只有 Tavily 已找到线索，但需要登录态 / 动态页面补抓时再调用
+- manifest 里要把 Tavily 的使用情况写清楚，避免出现“skill 说默认 Tavily，实际偷偷换成别的搜索”
 
 原则：
 
@@ -136,7 +161,7 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>" --no-g
 - selected screenshots
 - `llm_images/manifest.json`
 
-## 5. 网页核验
+## 5. 网页核验（默认必须用 Tavily）
 
 最低核验集合：
 
@@ -157,7 +182,7 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>" --no-g
 - 视频展示了什么、网页确认了什么、你推断了什么，三者必须分开
 - 二手来源用于补充背景，不要当作核心产品事实的第一来源
 
-如果用 Tavily，可直接套这些查询：
+默认直接用 Tavily。推荐最小查询集：
 
 ```bash
 tvly search "\"<product>\" official site" --max-results 5 --json
@@ -166,7 +191,17 @@ tvly search "\"<product>\" docs OR help OR documentation" --include-domains <off
 tvly search "\"<company_or_product>\" founder funding" --max-results 8 --json
 ```
 
-没有 `tvly` 时，改用 `tavily-search` 或 `web-access` skill。
+如果 `tvly` 不可用：
+
+1. 不要直接切到 WebSearch / `web.run`
+2. 先问用户：**要不要现在安装/配置 Tavily？**
+3. 只有用户明确同意降级，才改用别的联网方式
+
+如果需要动态页面或登录态补抓：
+
+- 先用 Tavily 找到 URL 和来源
+- 再用 `web-access` 做补抓
+- 在 manifest 里把二者的分工写清楚
 
 ## 6. 本地输出
 
@@ -238,9 +273,9 @@ tvly search "\"<company_or_product>\" founder funding" --max-results 8 --json
 
 关键规则：`observed_ui`、`confirmed_facts`、`inferences` 必须分开。
 
-## 7. 飞书发布
+## 7. 飞书发布（默认必须交付飞书）
 
-默认优先飞书，并对所有 create / update 操作显式传 `--as user`。
+默认必须飞书，并对所有 create / update 操作显式传 `--as user`。
 
 发布前只做 3 件事：
 
@@ -287,7 +322,12 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 
 ### 7.5 飞书不可用时
 
-如果权限不通、在线编辑开始混乱或排版持续失控，就停止在线编辑，直接交付 `notes.html` 和本地证据资产。
+如果权限不通、在线编辑开始混乱、token 刷新失败或排版持续失控：
+
+1. 先问用户：**要不要现在配置 / 刷新飞书 CLI？**
+2. 只有用户明确允许降级，才改成交付 `notes.html` 和本地证据资产
+
+换句话说：**默认是飞书，不是“飞书优先但随时静默退回 HTML”。**
 
 ## 8. 最终 QA
 
@@ -300,6 +340,8 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 - 选中的截图是稳定画面，不是过渡态
 - `scripts/prepare_llm_images.py` 已跑过，发给模型的图只来自 `llm_images/`
 - `skills_consulted` 已记录实际使用 / 跳过 / unavailable
+- Tavily 已作为默认搜索入口实际执行；如果没有，已记录用户明确批准的降级原因
 - 适用图示已按 `diagram_workflow.md` 放入对应章节
 - 本地目录里已生成 `notes.html` 与 `analysis_manifest.json`
+- 飞书文档已创建并拿到链接；如果没有，已记录用户明确批准的降级原因
 - 最终回复写明本地输出路径

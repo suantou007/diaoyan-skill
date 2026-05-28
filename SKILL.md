@@ -1,14 +1,14 @@
 ---
 name: product-competitor-research
 version: 3.3.0
-description: "基于产品演示录屏与定向网页校验做竞品调研，产出带时间戳、截图、已确认事实、开放问题的证据型研究结果，并优先交付为飞书文档或本地 HTML。适用于 competitor analysis、product video research、敏捷研究、竞品调研、竞品分析、feature evidence extraction，或用户提供 .mp4/.mov/.webm 录屏并希望获得结构化结论的场景。"
+description: "基于产品演示录屏与定向网页校验做竞品调研，默认使用 Tavily 做网页核验、使用飞书文档做正式交付；若 Tavily 或飞书未配置，先询问用户是否安装/配置，而不是静默降级。适用于 competitor analysis、product video research、敏捷研究、竞品调研、竞品分析、feature evidence extraction，或用户提供 .mp4/.mov/.webm 录屏并希望获得结构化结论的场景。"
 ---
 
 # 基于录屏的产品竞品调研
 
 > 对外仓库名可为 `diaoyan-skill`；skill 内部名保留 `product-competitor-research`，以兼容既有触发语义。
 
-这个 skill 用来把产品演示录屏整理成**证据型竞品研究**。默认先完成本地 evidence package，再**优先发布飞书**；飞书不可用时退回 `notes.html`。
+这个 skill 用来把产品演示录屏整理成**证据型竞品研究**。默认先完成本地 evidence package，再**用 Tavily 做网页核验、发布飞书文档**。如果 Tavily 或飞书未配置，不要静默降级；先询问用户是否现在安装/配置。
 
 ## 何时使用
 
@@ -20,7 +20,7 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 
 1. intake：补齐视频路径、产品名、官网和重点问题
 2. 浏览视频并提取稳定截图
-3. 核验官网 / 文档 / 定价 / 更新日志
+3. 用 Tavily 核验官网 / 文档 / 定价 / 更新日志
 4. 产出本地 evidence package
 5. 默认发布飞书；不可用时交付 `notes.html`
 
@@ -28,8 +28,8 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 
 - `ffmpeg` / `ffprobe`
 - `python3` + Pillow（供 `scripts/prepare_llm_images.py` 使用）
-- 网页核验能力：优先 `tavily-search` 或 `web-access`
-- 飞书发布能力：`lark-cli`、`lark-doc`；默认 create / update 使用 `--as user`
+- **Tavily CLI（`tvly`）**：默认网页核验必须使用；如果没装 / 未登录 / 不可用，先问用户要不要现在安装或配置
+- **飞书 CLI（`lark-cli`、`lark-doc`）**：默认正式交付必须使用；如果没装 / 未登录 / token 失效，先问用户要不要现在配置或刷新
 
 ## 四条硬规则
 
@@ -40,9 +40,11 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 
 2. **正式报告必须读结构文件**：只要交付飞书或 `notes.html`，就必须覆盖 [references/reference_doc_structure.md](references/reference_doc_structure.md)。缺失项也要写成“未找到 / 未核验 / 视频未展示”，不能静默省略。
 
-3. **正式竞品分析必须运行时检索用户 skill 库**：优先寻找 `hv-analysis`、网页检索类 skill、图示 / 飞书类 skill，用最小集合辅助纵向演进、横向对比和交汇洞察；并在 `analysis_manifest.json` 记录 `skills_consulted`。
+3. **正式竞品分析必须运行时检索用户 skill 库**：优先寻找 `hv-analysis`、`tavily-search`、图示 / 飞书类 skill，用最小集合辅助纵向演进、横向对比和交汇洞察；并在 `analysis_manifest.json` 记录 `skills_consulted`。
 
 4. **需要流程 / 时间线 / 竞品关系时必须补图**：发布飞书时先读 [references/diagram_workflow.md](references/diagram_workflow.md)。默认优先 `SVG → 飞书画板`；HTML 兜底插入 SVG / PNG。
+
+5. **默认一定是 Tavily + 飞书**：不要把内置 WebSearch / `web.run` 或本地 HTML 当默认路径。`tvly` 不可用时，先问用户“要不要现在安装/配置 Tavily？”；飞书不可用时，先问用户“要不要现在配置/刷新飞书 CLI？”。只有用户明确同意降级，才能不用 Tavily 或不发飞书。
 
 ## 只保留 3 份参考文件
 
@@ -63,7 +65,8 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 - 录屏路径
 - 产品名 / 官网（已知则直接用）
 - 用户最关心的问题
-- 当前环境是否能正常发布飞书；如果不行，自动退回 HTML
+- 当前环境的 `tvly` 是否可用；如果不行，先问用户要不要安装/配置 Tavily
+- 当前环境是否能正常发布飞书；如果不行，先问用户要不要配置/刷新飞书 CLI
 
 ### 2. 视频证据
 
@@ -80,6 +83,13 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 - pricing / plans
 - changelog / release notes / blog（视频明显展示新功能时）
 
+默认必须使用 **Tavily CLI（`tvly`）** 做这些查询。不要把内置 WebSearch / `web.run` 当默认方案。只有当：
+
+- 用户明确允许降级；或
+- Tavily 只能找到 URL，但需要登录态 / 强动态页面补抓
+
+才可以额外补 `web-access`；这时 Tavily 仍应作为默认搜索入口。
+
 ### 4. 本地交付资产
 
 默认保留：
@@ -92,9 +102,9 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 
 ### 5. 正式交付
 
-- 默认优先飞书
+- 默认必须发布飞书
 - 飞书发布前先看结构，再看图示，再写正文
-- 飞书不稳定、权限不通或排版开始失控时，立刻退回 `notes.html`
+- 如果飞书 CLI / 认证不可用，先问用户要不要现在配置或刷新；只有用户明确同意降级，才退回 `notes.html`
 
 ## 报告至少要覆盖
 
@@ -117,6 +127,8 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 - 推断已显式标记
 - `reference_doc_structure.md` 的模块都覆盖了
 - `skills_consulted` 已记录实际使用 / 跳过 / unavailable
+- 网页核验默认实际使用了 Tavily；如果没有，已记录用户明确批准的降级原因
 - 图示按 `diagram_workflow.md` 放进对应章节，而不是堆到末尾
+- 飞书文档已实际创建并返回链接；如果没有，已记录用户明确批准的降级原因
 - 最终 QA 对照 `references/checklist.md`
 - 最终回复写明本地输出路径

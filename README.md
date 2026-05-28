@@ -4,14 +4,14 @@
 
 一个用于**产品录屏竞品调研**的证据型 skill。
 
-它会先浏览视频、提取稳定截图、核验关键网页信息、沉淀本地证据资产，然后**默认优先交付飞书文档**；如果当前环境不适合飞书，再退回到本地 HTML 报告。
+它会先浏览视频、提取稳定截图、通过 **Tavily** 核验关键网页信息、沉淀本地证据资产，然后**默认交付飞书文档**。如果 Tavily 或飞书未配置，正确行为是先询问用户是否安装/配置，而不是静默降级。
 
 ## 它能做什么
 
 - 浏览录屏并按时间戳梳理候选功能
 - 通过 `prepare_llm_images.py` 避免大图导致的 `413 Payload Too Large`
 - 提取稳定截图并保留本地证据包
-- 用官网 / 文档 / 定价页做网页核验
+- 默认用 Tavily 做官网 / 文档 / 定价页核验
 - 在正式竞品分析中运行时检索用户 skill 库（如 `hv-analysis`）补强研究质量
 - 强制覆盖正式报告结构，而不是只做功能流水账
 - 在飞书里按 `diagram_workflow.md` 输出可编辑图示
@@ -50,7 +50,7 @@ npx skills add suantou007/diaoyan-skill -g -y
 | Python Pillow | `python3 -m pip install pillow` |
 | lark-cli | `npm install -g @larksuite/cli` |
 
-网页核验优先使用用户已有的 `tavily-search` 或 `web-access` skill。
+默认网页核验必须使用 Tavily；`web-access` 只作为动态页面 / 登录态补抓的补充工具。默认正式交付必须发布到飞书。
 
 ## 适用场景
 
