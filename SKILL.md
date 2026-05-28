@@ -49,6 +49,7 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 1. [references/workflow.md](references/workflow.md) —— 执行手册：视频分析、网页核验、本地输出、飞书发布、QA
 2. [references/reference_doc_structure.md](references/reference_doc_structure.md) —— 正式报告必须覆盖的信息
 3. [references/diagram_workflow.md](references/diagram_workflow.md) —— 什么时候补图、图放哪里、怎么走飞书画板
+4. [references/checklist.md](references/checklist.md) —— 最终 QA 与发布前检查
 
 额外只用：
 - `scripts/prepare_llm_images.py`：安全图压缩，避免 413
@@ -117,4 +118,5 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，产
 - `reference_doc_structure.md` 的模块都覆盖了
 - `skills_consulted` 已记录实际使用 / 跳过 / unavailable
 - 图示按 `diagram_workflow.md` 放进对应章节，而不是堆到末尾
+- 最终 QA 对照 `references/checklist.md`
 - 最终回复写明本地输出路径
