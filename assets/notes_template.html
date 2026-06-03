@@ -377,26 +377,28 @@
     <div class="layout">
       <nav class="toc">
         <h3>目录</h3>
-        <a href="#summary">执行摘要</a>
-        <a href="#snapshot">产品快照</a>
-        <a href="#features">证据型功能拆解</a>
-        <a href="#workflow">核心工作流</a>
-        <a href="#timeline">纵向演进</a>
-        <a href="#comparison">横向对比</a>
-        <a href="#questions">开放问题</a>
+        <a href="#summary">一句话总结</a>
+        <a href="#basic-info">基本信息</a>
+        <a href="#intro">产品简介</a>
+        <a href="#features">核心功能体验</a>
+        <a href="#pros-cons">亮点与不足</a>
+        <a href="#comparison">竞品对比</a>
+        <a href="#conclusion">结论与跟踪建议</a>
+        <a href="#consistency">一致性检查</a>
+        <a href="#sources">附录：信息来源</a>
       </nav>
 
       <article class="report">
         <section id="summary" class="section">
-          <h2>执行摘要</h2>
-          <p class="lead">先给判断，再展开证据。这里放 3–5 条最值得读的结论。</p>
+          <h2>一句话总结</h2>
+          <p class="lead">{一句话定位} · {一句话亮点} · {一句话现状描述}</p>
           <div class="callout">
-            <strong>核心亮点：</strong>这里写最重要的竞争优势和差异点。
+            <strong>核心亮点：</strong>这里写最重要的产品亮点，并确保能在核心功能体验里找到支撑。
           </div>
         </section>
 
-        <section id="snapshot" class="section">
-          <h2>产品快照</h2>
+        <section id="basic-info" class="section">
+          <h2>基本信息</h2>
           <div class="pill-row">
             <span class="pill">目标用户：B 端创作者</span>
             <span class="pill">定位：工作流平台</span>
@@ -404,9 +406,14 @@
           </div>
         </section>
 
+        <section id="intro" class="section">
+          <h2>产品简介</h2>
+          <p class="lead">用 150–250 字说明这是什么产品、解决什么需求、主体验是什么、当前所处阶段。</p>
+        </section>
+
         <section id="features" class="section">
-          <h2>证据型功能拆解</h2>
-          <p class="lead">每个功能 section 都遵循同一顺序：标题 → 图片 → 时间戳 → 视频观察 / 网页确认 / 推断 → 竞争意义。</p>
+          <h2>核心功能体验</h2>
+          <p class="lead">每个功能模块遵循同一顺序：小标题 → 简述 → 体验截图 → 截图描述 → 一句点评。</p>
 
           <div class="feature-grid">
             <section class="card">
@@ -417,21 +424,9 @@
               <figure class="figure-frame">
                 <img src="./selected_screenshots/01_feature.jpg" alt="功能截图">
               </figure>
-              <div class="evidence-columns">
-                <div class="evidence-box">
-                  <strong>视频观察</strong>
-                  <p>这里写视频中实际看到的 UI、动作和结果。</p>
-                </div>
-                <div class="evidence-box">
-                  <strong>网页确认</strong>
-                  <p>这里写官网 / docs / 定价页确认过的信息。</p>
-                </div>
-                <div class="evidence-box">
-                  <strong>推断 / 问题</strong>
-                  <p>这里写仍待确认的内容，不要和事实混写。</p>
-                </div>
-              </div>
-              <p><strong>竞争意义：</strong>解释这项能力为什么值得关注。</p>
+              <p><strong>简述：</strong>2–4 句话讲清楚功能干什么、怎么用、关键交互。</p>
+              <p><strong>截图描述：</strong>说明读者应该看见什么。</p>
+              <p><strong>一句点评：</strong>亮点或问题在哪里。</p>
             </section>
 
             <section class="card">
@@ -448,41 +443,27 @@
           </div>
         </section>
 
-        <section id="workflow" class="section">
-          <h2>核心工作流 / 用户路径</h2>
-          <div class="diagram-block">
-            <div class="diagram-placeholder">这里放流程图 / 飞书画板导出图 / SVG</div>
-          </div>
-          <p class="footer-note">流程图应放在本章节标题后、解释文字前，不要堆到文档尾部。</p>
-        </section>
-
-        <section id="timeline" class="section">
-          <h2>纵向演进</h2>
-          <div class="diagram-block">
-            <div class="diagram-placeholder">这里放时间线图</div>
-          </div>
+        <section id="pros-cons" class="section">
+          <h2>亮点与不足</h2>
+          <p class="lead">每条 1 句话，总数控制在 6 条以内，并能回指到核心功能体验。</p>
         </section>
 
         <section id="comparison" class="section">
-          <h2>横向对比</h2>
+          <h2>竞品对比</h2>
           <table class="compare-table">
             <thead>
               <tr>
-                <th>维度</th>
-                <th>本产品</th>
-                <th>竞品 A</th>
-                <th>竞品 B</th>
+                <th>产品</th>
+                <th>定位</th>
+                <th>目标用户</th>
+                <th>AI 能力</th>
+                <th>与本产品的差异点</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>核心场景</td>
+                <td>本产品</td>
                 <td>...</td>
-                <td>...</td>
-                <td>...</td>
-              </tr>
-              <tr>
-                <td>工作流完整度</td>
                 <td>...</td>
                 <td>...</td>
                 <td>...</td>
@@ -491,11 +472,22 @@
           </table>
         </section>
 
-        <section id="questions" class="section">
-          <h2>开放问题 / 未确认项</h2>
+        <section id="conclusion" class="section">
+          <h2>结论与跟踪建议</h2>
+          <p><strong>核心判断：</strong>一句话。</p>
+          <p><strong>值得持续跟踪的变量：</strong>2–3 条。</p>
+        </section>
+
+        <section id="consistency" class="section">
+          <h2>一致性检查</h2>
           <div class="callout">
-            <p>把暂时不能确认的点明确列出来，而不是混进结论里。</p>
+            <p>检查“产品定位”和“核心判断”是否一致；亮点 / 不足是否能在核心功能体验里找到支撑。</p>
           </div>
+        </section>
+
+        <section id="sources" class="section">
+          <h2>附录：信息来源</h2>
+          <p>体验视频、外部检索关键词、官方页面、其他参考。</p>
         </section>
       </article>
     </div>
