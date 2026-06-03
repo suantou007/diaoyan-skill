@@ -26,7 +26,7 @@
 - `ffmpeg` / `ffprobe`
 - `python3` + Pillow
 - `tvly`（默认网页核验必须用）
-- `lark-cli` / `lark-doc`（默认正式交付必须用）
+- `lark-cli`（默认正式交付必须用；用 `lark-cli auth status` 检查认证，发布时使用 `lark-cli docs ...`；需要文档能力时可调用 `lark-doc` skill）
 
 ### 默认规则：Tavily + 飞书
 
@@ -53,7 +53,7 @@
 
 ## 3. 运行时调研 Skill 选择
 
-以下任一情况满足时，必须先检索用户 skill 库：
+以下任一情况满足时，必须先检索用户 skill 库。优先使用当前会话已经暴露的 skills 列表；如需发现懒加载工具，用 `tool_search`：
 
 - 用户要竞品分析、敏捷研究、深度研究、给老板 / 同事看的正式报告
 - 最终交付是飞书文档或 `notes.html`

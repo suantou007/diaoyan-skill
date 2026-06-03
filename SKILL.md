@@ -1,12 +1,12 @@
 ---
-name: product-competitor-research
+name: diaoyan
 version: 3.6.0
 description: "基于产品演示录屏与定向网页校验做竞品调研，默认使用 Tavily 做网页核验、使用飞书文档做正式交付；若 Tavily 或飞书未配置，先询问用户是否安装/配置，而不是静默降级。适用于 competitor analysis、product video research、敏捷研究、竞品调研、竞品分析、feature evidence extraction，或用户提供 .mp4/.mov/.webm 录屏并希望获得结构化结论的场景。"
 ---
 
 # 基于录屏的产品竞品调研
 
-> 对外仓库名可为 `diaoyan-skill`；skill 内部名保留 `product-competitor-research`，以兼容既有触发语义。
+> 对外仓库名为 `diaoyan-skill`；skill 名为 `diaoyan`。旧的 `product-competitor-research` 语义只作为触发词兼容，不再作为内部名称。
 
 这个 skill 用来把产品演示录屏整理成**证据型竞品研究**。默认先完成本地 evidence package，再**用 Tavily 做网页核验、发布飞书文档**。如果 Tavily 或飞书未配置，不要静默降级；先询问用户是否现在安装/配置。
 
@@ -30,7 +30,7 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，默
 - `ffmpeg` / `ffprobe`
 - `python3` + Pillow（供 `scripts/prepare_llm_images.py` 使用）
 - **Tavily CLI（`tvly`）**：默认网页核验必须使用；如果没装 / 未登录 / 不可用，先问用户要不要现在安装或配置
-- **飞书 CLI（`lark-cli`、`lark-doc`）**：默认正式交付必须使用；如果没装 / 未登录 / token 失效，先问用户要不要现在配置或刷新
+- **飞书 CLI（`lark-cli`）**：默认正式交付必须使用；用 `lark-cli auth status` 检查认证，发布时使用 `lark-cli docs ...`；需要文档能力时可调用 `lark-doc` skill。如果没装 / 未登录 / token 失效，先问用户要不要现在配置或刷新
 
 ## 四条硬规则
 
@@ -41,13 +41,13 @@ description: "基于产品演示录屏与定向网页校验做竞品调研，默
 
 2. **正式报告必须读结构文件**：只要交付飞书或 `notes.html`，就必须覆盖 [references/reference_doc_structure.md](references/reference_doc_structure.md)。缺失项也要写成“未找到 / 未核验 / 视频未展示”，不能静默省略。
 
-3. **正式竞品分析必须运行时检索用户 skill 库**：优先寻找 `hv-analysis`、`tavily-search`、图示 / 飞书类 skill，用最小集合辅助纵向演进、横向对比和交汇洞察；并在 `analysis_manifest.json` 记录 `skills_consulted`。
+3. **正式竞品分析必须运行时检索用户 skill 库**：优先使用当前会话暴露的 skills 列表；如需发现懒加载工具，用 `tool_search`。优先寻找 `hv-analysis`、`tavily-search`、图示 / 飞书类 skill，用最小集合辅助纵向演进、横向对比和交汇洞察；并在 `analysis_manifest.json` 记录 `skills_consulted`。
 
 4. **需要流程 / 时间线 / 竞品关系时必须补图**：发布飞书时先读 [references/diagram_workflow.md](references/diagram_workflow.md)。默认优先 `SVG → 飞书画板`；HTML 兜底插入 SVG / PNG。
 
 5. **默认一定是 Tavily + 飞书**：不要把内置 WebSearch / `web.run` 或本地 HTML 当默认路径。`tvly` 不可用时，先问用户“要不要现在安装/配置 Tavily？”；飞书不可用时，先问用户“要不要现在配置/刷新飞书 CLI？”。只有用户明确同意降级，才能不用 Tavily 或不发飞书。
 
-## 只保留 3 份参考文件
+## 只保留 4 份参考文件
 
 1. [references/workflow.md](references/workflow.md) —— 执行手册：视频分析、网页核验、本地输出、飞书发布、QA
 2. [references/reference_doc_structure.md](references/reference_doc_structure.md) —— 正式报告必须覆盖的信息

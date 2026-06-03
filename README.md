@@ -1,6 +1,6 @@
 # diaoyan-skill
 
-> 仓库发布名为 `diaoyan-skill`；skill 内部名保留为 `product-competitor-research`，以兼容已有触发语义。
+> 仓库发布名为 `diaoyan-skill`；skill 名为 `diaoyan`。旧的 `product-competitor-research` 只作为触发语义兼容，不再作为内部名称。
 
 一个用于**产品录屏竞品调研**的证据型 skill。
 
@@ -35,7 +35,7 @@
 - 通过 `prepare_llm_images.py` 避免大图导致的 `413 Payload Too Large`
 - 提取稳定截图并保留本地证据包
 - 默认用 Tavily 做官网 / 文档 / 定价页核验；Tavily 没抓到的关键字段继续补 WebSearch
-- 在正式竞品分析中运行时检索用户 skill 库（如 `hv-analysis`）补强研究质量
+- 在正式竞品分析中运行时检索当前会话可用 skills；必要时用 `tool_search` 发现懒加载工具（如 `hv-analysis`）补强研究质量
 - 强制覆盖正式报告结构，而不是只做功能流水账
 - 在飞书里按 `diagram_workflow.md` 输出可编辑图示
 - 让 HTML 与飞书默认使用同一套章节顺序与写作风格，而不是一个精细、一个凑合
@@ -72,7 +72,7 @@ npx skills add suantou007/diaoyan-skill -g -y
 |------|---------|
 | ffmpeg | `brew install ffmpeg` |
 | Python Pillow | `python3 -m pip install pillow` |
-| lark-cli | `npm install -g @larksuite/cli` |
+| lark-cli | `npm install -g @larksuite/cli`，用 `lark-cli auth status` 检查认证 |
 
 默认网页核验必须先使用 Tavily；Tavily 没抓到关键事实时继续补 WebSearch，`web-access` 只作为动态页面 / 登录态补抓的补充工具。默认正式交付必须发布到飞书。
 
