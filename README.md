@@ -29,6 +29,8 @@
 - 亮点 / 不足总数控制在 6 条以内，并能回指到核心功能体验
 - 结论里的核心判断必须和基本信息里的产品定位一致
 - 报告尾部必须增加一致性检查
+- 默认保留 **至少 16 张候选截图**，并在飞书正文里实际插入 **8–10 张图**
+- 飞书插图不再靠手工补救，改为通过 `insert_feishu_media_with_retry.py` 做重试与插后校验
 
 ## 它能做什么
 
@@ -53,6 +55,7 @@
 - `references/checklist.md`
 - `assets/notes_template.html`
 - `scripts/prepare_llm_images.py`
+- `scripts/insert_feishu_media_with_retry.py`
 
 其中对 skill 运行最关键的是：
 
@@ -76,6 +79,12 @@ npx skills add suantou007/diaoyan-skill -g -y
 | lark-cli | `npm install -g @larksuite/cli`，用 `lark-cli auth status` 检查认证 |
 
 默认网页核验必须先使用 Tavily；Tavily 没抓到关键事实时继续补 WebSearch，`web-access` 只作为动态页面 / 登录态补抓的补充工具。默认正式交付必须发布到飞书。
+
+飞书插图默认规则：
+
+- 先准备 `selected_screenshots/` 中至少 16 张稳定候选图
+- 正式飞书默认实际落 8–10 张图
+- `docs +media-insert` 失败时必须重试，并在每次尝试后用 `docs +fetch` 验证图片是否真的插入
 
 ## 适用场景
 

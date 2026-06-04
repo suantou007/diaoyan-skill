@@ -152,6 +152,20 @@ ffmpeg -ss 00:02:34 -i "<video_path>" -frames:v 1 -vf "scale='min(1600,iw)':-2" 
 
 通常围绕 `t-2s`、`t-1s`、`t`、`t+1s`、`t+2s` 各取一张；多状态功能可保留多张图。
 
+数量门槛：
+
+- `selected_screenshots/` 里默认至少保留 **16 张候选稳定截图**
+- 候选图需要覆盖：开场世界状态、入口引导、径向菜单、参考图输入、风格 / 资产包控制、草图输入、生成结果、落地到场景、场景编辑、结果总览等关键阶段
+- 如果视频很短、功能确实很少，少于 16 张时要在 manifest 里写明原因；不要无声降标
+
+建议分布：
+
+- 开场 / 教程 / 世界状态：2 张
+- 创建入口与菜单：2 张
+- 输入模态（文本 / 图片 / 草图 / 资产包）：4–6 张
+- 生成结果与迭代：4 张
+- 场景内编辑与结果总览：4 张
+
 选好截图后，重新生成安全图：
 
 ```bash
@@ -452,6 +466,11 @@ tvly search "\"<company_or_product>\" founder funding" --max-results 8 --json
 - 多步骤流程用 2–4 张图做 `<grid>`
 - 工作流 / 竞品关系 / 能力地图优先走飞书画板，不用静态拼图硬代替
 - 工作流图默认作为“核心功能体验”里的一个模块；竞品关系图放在“竞品对比”章节开头；能力地图可放在“核心功能体验”开头
+- 正式报告默认实际插入 **8–10 张截图**
+- 每个核心功能模块优先插入 **2 张图**：一张讲入口 / 输入，一张讲结果 / 编辑
+- 同一锚点多图时，优先用稳定顺序写入，不要靠人工拖动修位置
+- `docs +media-insert` 失败时必须重试，并在每次尝试后用 `docs +fetch` 校验图片名是否真实出现在文档 XML 里
+- 推荐直接使用 `scripts/insert_feishu_media_with_retry.py` 执行批量插图，避免“返回空 JSON 但文档状态不明”的灰色失败
 
 图注规则：
 
@@ -473,6 +492,41 @@ tvly search "\"<company_or_product>\" founder funding" --max-results 8 --json
 cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot.jpg --align center
 ```
 
+推荐批量插图与重试：
+
+```bash
+python3 "<skill_dir>/scripts/insert_feishu_media_with_retry.py" \
+  --plan "<workdir>/feishu_media_plan.json" \
+  --summary-out "<workdir>/feishu_media_insert_summary.json"
+```
+
+`feishu_media_plan.json` 推荐字段：
+
+```json
+{
+  "doc_id": "doxcnxxxx",
+  "cwd": "/path/to/workdir",
+  "max_attempts": 4,
+  "validate_polls": 3,
+  "validate_wait_sec": 1.5,
+  "backoff_sec": 2.0,
+  "items": [
+    {
+      "file": "selected_screenshots/feature_radial_menu_0110.jpg",
+      "selection": "体验截图：径向菜单入口（00:01:09 - 00:01:19）",
+      "align": "center",
+      "width": 1100
+    }
+  ]
+}
+```
+
+执行约束：
+
+- 单张图成功标准不是 CLI 返回 0，而是 `docs +fetch` 后文档内容里能找到对应 `<img name="...">`
+- 如果命令报错但插后校验通过，应记录为“校验成功的命令级失败”
+- 如果连续重试仍失败，必须把失败项记录到 summary，不要静默吞掉
+
 ### 7.5 飞书不可用时
 
 如果权限不通、在线编辑开始混乱、token 刷新失败或排版持续失控：
@@ -491,6 +545,7 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 - 视频观察 / 网页确认 / 推断 已清晰分开
 - 由截图支撑的结论都带时间戳
 - 选中的截图是稳定画面，不是过渡态
+- `selected_screenshots/` 至少保留了 16 张候选稳定截图
 - `scripts/prepare_llm_images.py` 已跑过，发给模型的图只来自 `llm_images/`
 - `skills_consulted` 已记录实际使用 / 跳过 / unavailable
 - Tavily 已作为默认搜索入口实际执行；如果没有，已记录用户明确批准的降级原因
@@ -499,6 +554,7 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 - 图片没有被单独堆成一个“证据拆解”大章节；而是出现在对应功能位置
 - 图注简洁明了，没有大段“用于证明 / 来源 / 时间戳”式啰嗦说明
 - 正文整体符合 Wiki 模板，而不是取证清单
+- 飞书正文实际插入了 8–10 张截图；如果少于 8 张，已说明理由
 - HTML 与飞书保持相同的主结构：一句话总结 → 基本信息 → 产品简介 → 核心功能体验 → 亮点与不足 → 竞品对比 → 结论与跟踪建议 → 一致性检查 → 附录
 - 核心功能体验按“小标题 → 简述 → 体验截图 → 截图描述 → 一句点评”展开
 - 基本信息里的“产品定位”和结论里的“核心判断”一致
@@ -507,4 +563,5 @@ cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot
 - 适用图示已按 `diagram_workflow.md` 放入对应章节
 - 本地目录里已生成 `notes.html` 与 `analysis_manifest.json`
 - 飞书文档已创建并拿到链接；如果没有，已记录用户明确批准的降级原因
+- 飞书插图已经过重试与插后校验；失败项已写入 `feishu_media_insert_summary.json`
 - 最终回复写明本地输出路径
