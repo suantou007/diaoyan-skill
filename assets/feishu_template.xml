@@ -20,25 +20,23 @@
     <tr><td>平台</td><td>Web / iOS / Android / 小程序等</td></tr>
     <tr><td>产品定位</td><td>一句话定位</td></tr>
     <tr><td>目标用户</td><td>一句话用户画像</td></tr>
-    <tr><td>融资 / 投资</td><td>金额、轮次、时间、投资方</td></tr>
-    <tr><td>用户规模</td><td>具体数字与时间口径</td></tr>
-    <tr><td>定价计划</td><td>档位、价格、周期、额度与限制</td></tr>
-    <tr><td>官网 / 下载</td><td>直接链接</td></tr>
+    <tr><td>融资 / 投资</td><td>金额、轮次、时间、投资方（<a href="https://example.com/funding">融资公告</a>）</td></tr>
+    <tr><td>用户规模</td><td>具体数字与时间口径（<a href="https://example.com/users">数据来源</a>）</td></tr>
+    <tr><td>定价计划</td><td>档位、价格、周期、额度与限制（<a href="https://example.com/pricing">定价页</a>）</td></tr>
+    <tr><td>官网 / 下载</td><td><a href="https://example.com">官网</a></td></tr>
   </tbody>
 </table>
-<p><b>本节来源：</b>页面标题 + 直接 URL</p>
 <hr/>
 <h2>产品简介</h2>
 <p><b>产品定位：</b>这是什么产品。</p>
 <p><b>核心需求：</b>解决什么需求。</p>
 <p><b>主体验：</b>用户主要如何使用。</p>
-<p><b>当前阶段：</b>发展、融资、商业化或市场状态。</p>
+<p><b>当前阶段：</b>发展、融资、商业化或市场状态（<a href="https://example.com/announcement">官方公告</a>）。</p>
 <h3>产品全貌</h3>
 <grid>
   <column width-ratio="0.5"><p>[官网首页截图]</p><p>官网首页：展示产品定位和主要价值。</p></column>
   <column width-ratio="0.5"><p>[编辑器首页截图]</p><p>编辑器首页：展示核心创作工作台。</p></column>
 </grid>
-<p><b>本节来源：</b>页面标题 + 直接 URL</p>
 <hr/>
 <h2>功能分析</h2>
 <p>本章只依据录屏，不做网页交叉验证；每条功能判断必须由准确匹配的截图支撑。</p>
@@ -59,15 +57,14 @@
   C --> D[编辑与反馈]
   D --> E[导出或分享]</whiteboard>
 <p><b>关键摩擦点：</b>等待、跳转、付费点、失败反馈或学习成本。</p>
-<p><b>反馈机制：</b>系统如何帮助用户判断进度、质量与下一步。</p>
-<p><b>本节来源：</b>页面标题 + 直接 URL</p>
+<p><b>反馈机制：</b>系统如何帮助用户判断进度、质量与下一步；若补充了公开资料，在事实附近嵌入链接，例如 <a href="https://example.com/help">官方帮助</a>。</p>
 <hr/>
 <h2>竞品分析</h2>
 <p>默认选择 2 个亮点对标竞品和 2 个同类型竞品，优先四个产品互不重复。</p>
 <h3>亮点对标竞品</h3>
 <table>
   <thead><tr><th background-color="light-gray">产品</th><th background-color="light-gray">对标亮点</th><th background-color="light-gray">实现方式</th><th background-color="light-gray">用户价值</th><th background-color="light-gray">本产品差距 / 优势</th><th background-color="light-gray">可借鉴点</th></tr></thead>
-  <tbody><tr><td>亮点竞品 A</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>亮点竞品 B</td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+  <tbody><tr><td><a href="https://example.com/competitor-a">亮点竞品 A</a></td><td></td><td><a href="https://example.com/competitor-a/docs">官方文档</a></td><td></td><td></td><td></td></tr><tr><td>亮点竞品 B</td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
 </table>
 <h3>同类型竞品</h3>
 <table>
@@ -75,10 +72,9 @@
   <tbody><tr><td>同类型竞品 A</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>同类型竞品 B</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
 </table>
 <callout emoji="📌" background-color="light-green" border-color="green"><p><b>竞争判断：</b>综合说明本产品的竞争位置、优势、短板与关键约束。</p></callout>
-<p><b>本节来源：</b>页面标题 + 直接 URL</p>
 <hr/>
 <h2>主要信息来源</h2>
 <grid>
-  <column width-ratio="0.5"><h3>官方信息</h3><ul><li>页面标题：直接 URL</li></ul></column>
-  <column width-ratio="0.5"><h3>非官方信息</h3><ul><li>页面标题：直接 URL</li></ul></column>
+  <column width-ratio="0.5"><h3>官方信息</h3><ul><li><a href="https://example.com">官方页面标题</a></li></ul></column>
+  <column width-ratio="0.5"><h3>非官方信息</h3><ul><li><a href="https://example.com/article">媒体或第三方页面标题</a></li></ul></column>
 </grid>

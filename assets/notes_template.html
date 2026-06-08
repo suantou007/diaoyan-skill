@@ -64,8 +64,7 @@
     }
     .overview-block { padding: 14px; background: var(--soft); border-left: 3px solid var(--green); }
     .overview-block strong { display: block; margin-bottom: 5px; }
-    .source-box { margin-top: 18px; padding: 12px 14px; background: var(--soft); border-left: 3px solid var(--blue); font-size: 13px; }
-    .source-box strong { display: block; margin-bottom: 5px; }
+    .citation { font-size: 12px; white-space: nowrap; }
     table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
     th, td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; }
     th { background: var(--soft); }
@@ -140,13 +139,12 @@
               <tr><td>平台</td><td>Web / iOS / Android / 小程序等</td></tr>
               <tr><td>产品定位</td><td>一句话定位</td></tr>
               <tr><td>目标用户</td><td>一句话用户画像</td></tr>
-              <tr><td>融资 / 投资</td><td>金额、轮次、时间、投资方</td></tr>
-              <tr><td>用户规模</td><td>具体数字与时间口径</td></tr>
-              <tr><td>定价计划</td><td>档位、价格、周期、额度与限制</td></tr>
-              <tr><td>官网 / 下载</td><td>直接链接</td></tr>
+              <tr><td>融资 / 投资</td><td>金额、轮次、时间、投资方 <a class="citation" href="https://example.com/funding">融资公告</a></td></tr>
+              <tr><td>用户规模</td><td>具体数字与时间口径 <a class="citation" href="https://example.com/users">数据来源</a></td></tr>
+              <tr><td>定价计划</td><td>档位、价格、周期、额度与限制 <a class="citation" href="https://example.com/pricing">定价页</a></td></tr>
+              <tr><td>官网 / 下载</td><td><a href="https://example.com">官网</a></td></tr>
             </tbody>
           </table>
-          <div class="source-box"><strong>本节来源</strong><a href="https://example.com">页面标题</a></div>
         </section>
 
         <section id="intro" class="section">
@@ -154,13 +152,12 @@
           <p><strong>产品定位：</strong>这是什么产品。</p>
           <p><strong>核心需求：</strong>解决什么需求。</p>
           <p><strong>主体验：</strong>用户主要如何使用。</p>
-          <p><strong>当前阶段：</strong>发展、融资、商业化或市场状态。</p>
+          <p><strong>当前阶段：</strong>发展、融资、商业化或市场状态。<a class="citation" href="https://example.com/announcement">官方公告</a></p>
           <h3>产品全貌</h3>
           <div class="image-grid">
             <figure><div class="image-placeholder" data-src="./official_product_views/homepage.jpg">官网首页截图</div><figcaption>官网首页：展示产品定位和主要价值。</figcaption></figure>
             <figure><div class="image-placeholder" data-src="./official_product_views/editor.jpg">编辑器首页截图</div><figcaption>编辑器首页：展示核心创作工作台。</figcaption></figure>
           </div>
-          <div class="source-box"><strong>本节来源</strong><a href="https://example.com">官网首页</a></div>
         </section>
 
         <section id="functions" class="section">
@@ -187,8 +184,7 @@
             <div>导出或分享</div>
           </div>
           <p><strong>关键摩擦点：</strong>等待、跳转、付费点、失败反馈或学习成本。</p>
-          <p><strong>反馈机制：</strong>系统如何帮助用户判断进度、质量与下一步。</p>
-          <div class="source-box"><strong>本节来源</strong><a href="https://example.com">流程相关官方页面</a></div>
+          <p><strong>反馈机制：</strong>系统如何帮助用户判断进度、质量与下一步；若补充了公开资料，在事实附近嵌入链接，例如 <a class="citation" href="https://example.com/help">官方帮助</a>。</p>
         </section>
 
         <section id="competitors" class="section">
@@ -196,7 +192,7 @@
           <h3>亮点对标竞品</h3>
           <table>
             <thead><tr><th>产品</th><th>对标亮点</th><th>实现方式</th><th>用户价值</th><th>本产品差距 / 优势</th><th>可借鉴点</th></tr></thead>
-            <tbody><tr><td>亮点竞品 A</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr><tr><td>亮点竞品 B</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody>
+            <tbody><tr><td><a href="https://example.com/competitor-a">亮点竞品 A</a></td><td>...</td><td>... <a class="citation" href="https://example.com/competitor-a/docs">官方文档</a></td><td>...</td><td>...</td><td>...</td></tr><tr><td>亮点竞品 B</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody>
           </table>
           <h3>同类型竞品</h3>
           <table>
@@ -204,7 +200,6 @@
             <tbody><tr><td>同类型竞品 A</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr><tr><td>同类型竞品 B</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody>
           </table>
           <p class="judgment"><strong>竞争判断：</strong>综合说明本产品的竞争位置、优势、短板与关键约束。</p>
-          <div class="source-box"><strong>本节来源</strong><a href="https://example.com">竞品官方页面</a></div>
         </section>
 
         <section id="sources" class="section">
