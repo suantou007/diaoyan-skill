@@ -1,124 +1,72 @@
 # 执行手册
 
-这份文件合并了旧的分散说明。除 `reference_doc_structure.md` 和 `diagram_workflow.md` 外，其余执行细节都看这里。
-
 ## 1. 导航
 
-- **正式报告结构**：先读 `reference_doc_structure.md`
-- **图示 / 画板**：需要流程、竞品关系、能力地图时读 `diagram_workflow.md`
-- **视频分析、网页核验、本地输出、飞书发布、QA**：读本文件
+- 正式报告结构：`reference_doc_structure.md`
+- 图示、产品全貌图和竞品关系图：`diagram_workflow.md`
+- 发布前检查：`checklist.md`
 
-如果用户明确只要快速草稿，可以降级；否则默认按正式报告结构交付。
+正式报告必须先完成正文第 2 至第 7 章，再根据全文反向生成开头速览。
 
 ## 2. Intake 与工具检查
 
-开始前补齐：
+开始前确认：
 
 - 视频路径
-- 产品名
-- 官网 URL（已知则直接用）
-- 用户最关心的问题 / 竞品视角
-- Tavily 是否可用；不可用时不要静默换 WebSearch，先问用户要不要安装/配置 Tavily
-- 飞书是否可用；不可用时不要静默退回 HTML，先问用户要不要配置/刷新飞书 CLI
+- 产品名与官网
+- 用户最关心的问题
+- `tvly` 是否可用
+- `lark-cli auth status` 是否可正常发布飞书
 
-只检查当前任务真正需要的工具：
+默认链路是 Tavily + 飞书。任何一项不可用时，先询问用户是否安装、配置或刷新；只有用户明确同意，才能降级。
 
-- `ffmpeg` / `ffprobe`
-- `python3` + Pillow
-- `tvly`（默认网页核验必须用）
-- `lark-cli`（默认正式交付必须用；用 `lark-cli auth status` 检查认证，发布时使用 `lark-cli docs ...`；需要文档能力时可调用 `lark-doc` skill）
-
-### 默认规则：Tavily + 飞书
-
-正式运行时，默认链路必须是：
-
-1. **Tavily 搜索 / 核验**
-2. **飞书文档交付**
-
-禁止默认行为：
-
-- 没有 Tavily 就直接改用内置 WebSearch / `web.run`
-- 没有飞书就直接只产出 `notes.html`
-
-正确行为：
-
-- `tvly` 缺失、未登录、网络不可用、鉴权失败 → **先问用户要不要现在安装/配置 Tavily**
-- `lark-cli` 缺失、用户身份未授权、token 刷新失败、权限不通 → **先问用户要不要现在配置/刷新飞书 CLI**
-
-只有用户明确同意降级，才允许不用 Tavily 或不发飞书。
-
-补充规则：
-
-- **Tavily 是默认入口，不是唯一来源。** 如果 Tavily 没抓到关键事实，尤其是价格、套餐额度、限制、日期、具体数字，就必须继续补 WebSearch / `web.run`；如果页面是强动态或需要登录态，再补 `web-access`。
-- 关键数据要追到可写进正文的数字：融资 / 投资金额、轮次、投资方、时间；用户规模或客户数；公开定价至少 3 档的价格、周期、额度和限制。查不到时写“未公开 / 未找到”，但不要用空泛描述替代数字。
-
-## 3. 运行时调研 Skill 选择
-
-以下任一情况满足时，必须先检索用户 skill 库。优先使用当前会话已经暴露的 skills 列表；如需发现懒加载工具，用 `tool_search`：
-
-- 用户要竞品分析、敏捷研究、深度研究、给老板 / 同事看的正式报告
-- 最终交付是飞书文档或 `notes.html`
-- 需要公司 / 团队 / 融资 / 用户 / 关键数据 / 亮点不足 / 竞品对比 / 核心判断
-
-默认优先级：
-
-1. `tavily-search`：默认网页检索与来源发现
-2. `lark-whiteboard`：把流程图 / 竞品关系 / 能力地图写进飞书画板
-3. `hv-analysis`：仅当用户明确要深度纵横研究时，用来补强演进脉络和竞品格局
-
-补充规则：
-
-- `web-access` 不是默认搜索入口；只有 Tavily 已找到线索，但需要登录态 / 动态页面补抓时再调用
-- `web.run` / WebSearch 是 **Tavily 之后的补足层**：当 Tavily 没抓到关键事实时，应继续补查
-- manifest 里要把 Tavily 与 WebSearch / `web-access` 的分工写清楚，避免出现“skill 说默认 Tavily，实际偷偷换成别的搜索”或“明明没查到还假装查全了”
-
-原则：
-
-- 只选真正需要的最小集合，不要什么都调
-- 不把其他 research skill 的方法论明文复制进本 skill
-- 检索不到可用 skill 时，也要继续完成报告，并在 manifest 标 `unavailable`
-
-`analysis_manifest.json` 至少记录：
-
-```json
-{
-  "skills_consulted": [
-    {
-      "name": "hv-analysis",
-      "status": "used | skipped | unavailable",
-      "reason": "用于深度演进脉络和竞品格局分析"
-    }
-  ]
-}
-```
-
-## 4. 视频分析与 413 防护
-
-### 4.1 创建持久化工作目录
+## 3. 工作目录
 
 ```bash
-mkdir -p ~/Desktop/<product>_video_analysis/{frames_10s,contact_sheets,selected_screenshots,llm_images}
+mkdir -p ~/Desktop/<product>_video_analysis/{frames_10s,scene_candidates,contact_sheets,selected_screenshots,llm_images,official_product_views}
 ```
 
-所有衍生素材都尽量放在这个目录，不要长期留在 `/tmp`。
+默认保留：
 
-### 4.2 全局 survey
+```text
+<product>_video_analysis/
+├── frames_10s/
+├── scene_candidates/
+├── contact_sheets/
+├── selected_screenshots/
+├── llm_images/
+├── official_product_views/
+├── notes.html
+├── analysis_manifest.json
+├── feishu_media_plan.json
+└── feishu_media_insert_summary.json
+```
 
-先看时长：
+## 4. 视频分析与截图
+
+### 4.1 全片 survey
+
+先读时长：
 
 ```bash
 ffprobe -v error -show_entries format=duration -of csv=p=0 "<video_path>"
 ```
 
-低频抽帧：
+等距帧只作为覆盖兜底：
 
 ```bash
 ffmpeg -i "<video_path>" -vf "fps=1/10,scale='min(1280,iw)':-2" -q:v 4 "<workdir>/frames_10s/frame_%04d.jpg"
 ```
 
-如果视频很短，可改成 `fps=1/5`。
+场景变化候选：
 
-### 4.3 先生成安全图，再让模型看图
+```bash
+ffmpeg -i "<video_path>" -vf "select='gt(scene,0.18)',scale='min(1280,iw)':-2" -vsync vfr -q:v 4 "<workdir>/scene_candidates/scene_%04d.jpg"
+```
+
+候选过少时降到 `0.12`，过多时升到 `0.25`。
+
+### 4.2 生成 LLM-safe 图片
 
 ```bash
 python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
@@ -126,372 +74,305 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
 
 硬规则：
 
-- 发给模型或子 agent 的图片只来自 `llm_images/`
-- 不发送原始截图、原始 contact sheet、base64 图片
-- 不用 `detail: "original"`
-- 一次最多给子 agent 1–2 张安全图
-- 任何超大图继续压缩，不要硬塞进会话
+- 模型或子 agent 只接收 `llm_images/`
+- 不发送原始截图、原始 contact sheet、base64 或 `detail: "original"`
+- 一次最多给子 agent 1 至 2 张安全图
 
-### 4.4 维护候选功能日志
+### 4.3 候选功能日志
 
-对每个候选功能，至少记录：
+先记录视频动作，不急着写正文：
 
-- 暂定标题
-- 时间戳 / 时间范围
+- 时间戳范围
 - 观察到的 UI
-- 对应的用户任务
-- 竞争意义
-- 置信度（`high` / `medium` / `low`）
+- 用户任务
+- 输入、反馈和结果
+- 可匹配截图
+- 置信度
 
-### 4.5 提取稳定截图
+再把相邻动作归并成 3 至 6 个功能主题。
 
-不要迷信单帧。围绕目标时间点取一个 burst，再选最稳的一张。
+### 4.4 稳定截图选择
 
-```bash
-ffmpeg -ss 00:02:34 -i "<video_path>" -frames:v 1 -vf "scale='min(1600,iw)':-2" -q:v 3 "<workdir>/selected_screenshots/03_feature_t0.jpg"
-```
+候选池来自：
 
-通常围绕 `t-2s`、`t-1s`、`t`、`t+1s`、`t+2s` 各取一张；多状态功能可保留多张图。
+1. `frames_10s/`
+2. `scene_candidates/`
+3. 关键时间点 burst
+
+围绕目标点取 `t-2s`、`t-1s`、`t`、`t+1s`、`t+2s`。来自场景变化点时，优先取变化后 `0.5–1.5s` 的稳定帧。
+
+本地选优规则：
+
+- 清晰度：文字、按钮、面板边界清楚
+- 稳定态：弹窗展开、结果加载完成、无过渡动画
+- 信息量：能说明入口、输入、反馈、结果、编辑或导出
+- 去重：同一状态只保留最清晰且最有解释力的一张
+- 覆盖：不让某一阶段占满候选名额
+
+必须过滤：
+
+- 黑屏与 loading
+- 模糊与半渲染状态
+- 系统窗口或通知误入
+- 鼠标遮挡关键区域
+- 重复 UI 和低信息量画面
 
 数量门槛：
 
-- `selected_screenshots/` 里默认至少保留 **16 张候选稳定截图**
-- 候选图需要覆盖：开场世界状态、入口引导、径向菜单、参考图输入、风格 / 资产包控制、草图输入、生成结果、落地到场景、场景编辑、结果总览等关键阶段
-- 如果视频很短、功能确实很少，少于 16 张时要在 manifest 里写明原因；不要无声降标
+- `selected_screenshots/` 默认至少 16 张
+- 正文默认使用 8 至 10 张
+- 扩大候选池不增加最终图片数与模型输入量
 
-建议分布：
+## 5. 网页核验与来源注册
 
-- 开场 / 教程 / 世界状态：2 张
-- 创建入口与菜单：2 张
-- 输入模态（文本 / 图片 / 草图 / 资产包）：4–6 张
-- 生成结果与迭代：4 张
-- 场景内编辑与结果总览：4 张
+### 5.1 查询顺序
 
-选好截图后，重新生成安全图：
-
-```bash
-python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>" --no-generated-sheets
-```
-
-### 4.6 必须保留的证据
-
-- 原始录屏路径
-- survey frames
-- contact sheets（如果生成）
-- selected screenshots
-- `llm_images/manifest.json`
-
-## 5. 网页核验（默认 Tavily，关键缺口必须继续补）
+1. Tavily 搜索与页面抽取
+2. WebSearch / `web.run` 补关键缺口
+3. `web-access` 补强动态页面或登录态页面
 
 最低核验集合：
 
-1. 官方首页
-2. 官方 docs / help center
-3. 官方 pricing / plans
-4. 官方 changelog / release notes / blog（视频展示明显新功能时）
+- 官方首页与产品入口
+- 官方 docs / help
+- pricing / plans
+- 官方公告、blog、更新日志
+- 公司、团队、融资、用户规模
+- 竞品官方页面和必要的第三方来源
 
-可按需补充：
+### 5.2 来源分组
 
-- ProductHunt / G2 / Reddit 的评价
-- 公司 / 创始人 / 融资 / 流量 / 客户
-- 竞品比较和替代方案
+所有网页来源先注册到 `source_registry`：
 
-基本原则：
-
-- 产品事实优先看官方来源
-- 视频展示了什么、网页确认了什么、你推断了什么，三者必须分开
-- 二手来源用于补充背景，不要当作核心产品事实的第一来源
-
-默认直接用 Tavily。推荐最小查询集：
-
-```bash
-tvly search "\"<product>\" official site" --max-results 5 --json
-tvly search "\"<product>\" pricing OR plans" --include-domains <official_domain> --max-results 8 --json
-tvly search "\"<product>\" docs OR help OR documentation" --include-domains <official_domain> --max-results 8 --json
-tvly search "\"<company_or_product>\" founder funding" --max-results 8 --json
+```json
+{
+  "source_registry": {
+    "official": [
+      {
+        "title": "页面标题",
+        "url": "https://example.com",
+        "supports": ["basic_info", "product_intro"]
+      }
+    ],
+    "non_official": [
+      {
+        "title": "媒体报道标题",
+        "url": "https://example.com/article",
+        "supports": ["basic_info", "competitor_analysis"]
+      }
+    ]
+  }
+}
 ```
 
-如果 `tvly` 不可用：
+规则：
 
-1. 不要直接切到 WebSearch / `web.run`
-2. 先问用户：**要不要现在安装/配置 Tavily？**
-3. 只有用户明确同意降级，才改用别的联网方式
+- 官方来源优先支撑产品事实
+- 非官方来源用于交叉验证、市场信号、用户评价与竞争背景
+- 每个事实型章节只引用本节实际使用的来源
+- 功能分析只依据录屏，不强行补网页来源
 
-如果需要动态页面或登录态补抓：
+### 5.3 产品全貌图
 
-- 先用 Tavily 找到 URL 和来源
-- 再用 `web-access` 做补抓
-- 在 manifest 里把二者的分工写清楚
+产品简介后需要 2 至 4 张产品全貌图。按以下优先级获取并保存到 `official_product_views/`：
 
-### Tavily 没抓到时怎么补
+1. 官网首页
+2. 编辑器首页或产品工作台首页
+3. 社区、内容分发或关键终端首页
+4. 录屏中的编辑器总览
+5. 官方帮助中心或官方博客素材
 
-只要遇到下面这些高价值字段，就不能因为 Tavily 没返回而直接停下：
+并排图应能解释产品构成，不要只选风格相似的宣传图。
 
-- 价格
-- 套餐额度 / credits / limits
-- 关键限制（是否带水印、导出限制、seat、API 有无）
-- 具体发布日期 / 更新日期
-- 公司关键数字
+## 6. 正文生成
 
-补查顺序：
+### 6.1 必须先写第 2 至第 7 章
 
-1. **先 Tavily**
-2. **再 WebSearch / `web.run`**
-3. **最后 `web-access`**（仅强动态页面 / 登录态必需时）
+按以下顺序生成草稿：
 
-如果补到最后还是没有，就显式写：
+1. 基本信息与关键数据
+2. 产品简介与产品全貌图
+3. 功能分析
+4. 体验流程分析
+5. 竞品分析
+6. 主要信息来源
 
-- `Tavily 未抓到`
-- `WebSearch 已补查`
-- `仍未找到可靠来源`
+完成后做内部一致性检查，再反向生成“速览结论”并放在最前。
 
-不要只写一个模糊的“未抓到”。
+### 6.2 基本信息与关键数据
 
-## 6. 本地输出
+- 使用表格
+- 融资、用户规模和定价优先写具体数字、时间口径与直接链接
+- 章末生成简短“本节来源”
 
-推荐目录结构：
+### 6.3 产品简介
+
+- 使用 **产品定位** / **核心需求** / **主体验** / **当前阶段**
+- 简介后立即放产品全貌截图 grid
+- 章末生成“本节来源”
+
+### 6.4 功能分析
+
+只依据录屏，写 3 至 6 个能力主题。每个主题采用：
 
 ```text
-<product>_video_analysis/
-├── frames_10s/
-├── contact_sheets/
-├── selected_screenshots/
-├── llm_images/
-├── notes.html
-└── analysis_manifest.json
+小标题
+功能说明：用户做什么、关键交互是什么、系统如何反馈
+匹配截图：准确展示该功能，带短图注
+体验判断：亮点、摩擦或限制
 ```
 
-### 6.1 `notes.html`
+禁止：
 
-直接基于 `assets/notes_template.html` 生成，风格保持：
+- 把官网宣传口径当作录屏观察
+- 用无关或模糊截图支撑功能判断
+- 为了形式完整而附网页来源
 
-- editorial / research dossier / strategy memo
-- 像正式研究报告，不像 SaaS 营销页
-- 不要炫技，不要堆花哨特效
+### 6.5 体验流程分析
 
-推荐顺序：
-
-1. 封面 / Hero
-2. 一句话总结
-3. 基本信息
-4. 产品简介
-5. 核心功能体验
-6. 亮点与不足
-7. 竞品对比
-8. 结论与跟踪建议
-
-补充约束：
-
-- HTML 不是飞书失败后的“低配导出页”，而是和飞书共享同一套正式研究结构
-- 不要让 HTML 继续沿用审计式三栏大卡片作为正文主形态
-- HTML 和飞书正文都不能出现 `【注意】`、执行过程、一致性检查或默认附录
-- 这些分层信息应该主要保留在 `analysis_manifest.json`，正文只保留足够支撑判断的精炼表达
-- 不要把正文写成“标题很多，但每节只有 1 张图 + 1 段话”的碎片结构
-- 正文应该是“标题更少，但每节更厚”：每个主节都要有完整判断和小结
-
-更推荐的高质量写法是：
-
-### 先做一步“主题归并”
-
-在真正写正文前，先不要急着按截图顺序列标题，而是先做一次主题归并：
-
-1. 把视频中的关键动作列出来
-2. 判断哪些动作属于同一个更高层的产品能力
-3. 只保留 `3–6` 个能力主题进入正文
-
-常见归并方式：
-
-- `引导 + 菜单 + 创建入口` → 一个主题
-- `输入方式 + 候选结果 + 试错机制` → 一个主题
-- `结果落地 + 场景上下文 + 下一轮生成` → 一个主题
-
-如果你发现自己写出了 7 个以上的功能小节，先不要继续写，优先检查是不是没有做主题归并。
-
-### 写法 A：核心功能体验（默认优先）
-
-每个核心功能模块固定使用：
-
-1. **小标题**
-2. **简述**：2–4 句话讲清功能干什么、怎么用、关键交互
-3. **体验截图**：图片 + 短图注（必要时在图注末尾加视频时间戳）
-4. **截图描述**：说明读者应该看见什么
-5. **一句点评**：亮点或问题在哪里
-
-补充规则：
-
-- 按视频中出现顺序写。
-- 优先选择与竞品差异最大、用户感知最强的 3–6 个模块。
-- 亮点与不足必须能回指到这些功能模块。
-- 如需补工作流图，默认作为“核心功能体验”里的一个模块放入，而不是额外抬成新的大章。
-
-推荐把相邻动作合并成一个更有分析价值的主题：
-
-- 可以合并：`径向菜单 + 创建入口 + Create Object`
-- 可以合并：`参考图输入 + variant 选择 + 结果落地`
-- 可以合并：`场景 Capture + 下一轮生成`
-
-不推荐把这些分别拆成三个标题。
-
-如果某节缺少“一句点评”，通常需要补写；否则整节会显得“有记录、没判断”。
-
-### 可直接套用的“厚写法模板”
-
-下面这个骨架可以直接复用到飞书或 `notes.html`：
+默认路径：
 
 ```text
-1. 一句话总结
-   - Callout：{一句话定位} · {一句话亮点} · {一句话现状描述}
-
-2. 基本信息
-   - 表格：产品名 / 所属公司或团队 / 上线时间 / 平台 / 产品定位 / 目标用户 / 融资或投资 / 用户规模 / 定价计划 / 官网或下载
-   - 视频未覆盖的信息用外部检索补全，字段后标注来源；查不到写“未公开”
-   - 融资、用户规模、定价计划优先给具体数字；定价至少写 3 个公开档位的价格、计费周期、额度 / 限制
-
-3. 产品简介
-   - 150–250 字，使用 **产品定位** / **核心需求** / **主体验** / **当前阶段** 加粗锚点组织
-
-4. 核心功能体验
-   - 4.1 功能模块 A：小标题 → 简述 → 体验截图 + 短图注 → 截图描述 → 一句点评
-   - 4.2 功能模块 B：同上
-   - 4.3 功能模块 C：同上
-
-5. 亮点与不足
-   - 亮点：每条 1 句话，总数控制在 6 条以内
-   - 不足：每条 1 句话，总数控制在 6 条以内
-
-6. 竞品对比
-   - 表格：产品 | 定位 | 目标用户 | AI 能力 | 与本产品的差异点
-
-7. 结论与跟踪建议
-   - 核心判断：一句话
-   - 值得持续跟踪的变量：2–3 条
+入口与 onboarding → 输入或创建 → 生成或处理 → 编辑与反馈 → 导出或分享
 ```
 
-如果你写完后发现：
+交付至少包含一张流程图或流程表。分析关键反馈、等待、跳转、付费点和摩擦点。章末只列本节实际使用的网页来源。
 
-- 核心功能体验没有截图或时间戳
-- 亮点 / 不足无法回指到核心功能体验
-- 产品定位和核心判断不一致
+### 6.6 竞品分析
 
-那基本说明还没有真正套用好这个模板。修正这些问题，但不要把一致性检查过程写成公开章节。
+#### 选择流程
 
-### 写法 B：表格内直接放图（当信息密度较低时）
+1. 从功能分析与体验流程中提炼本产品 1 至 2 个核心亮点
+2. 为每个亮点选择一个最能代表该亮点的竞品，共 2 个
+3. 选择 2 个最直接的同类型竞品
+4. 优先四个产品互不重复；必须重叠时说明原因
 
-- 可以直接在功能表格对应行插入图片
-- 图片下方只写一句短备注，说明图的作用
-- 备注应简洁，不要变成一段审计说明
-- 如果两张图是并列关系，必须放在同一行的两个列里；不要上下堆叠。
+#### 两组表格
 
-而不是：
+亮点对标竞品：
 
-`前面写表格，后面再开一个巨大“证据拆解”章节统一解释所有截图`
+```text
+产品 | 对标亮点 | 实现方式 | 用户价值 | 本产品差距 / 优势 | 可借鉴点
+```
 
-### 6.2 `analysis_manifest.json`
+同类型竞品：
 
-最低需要覆盖：
+```text
+产品 | 定位与用户 | 平台与场景 | 核心流程 | 内容生态 | 商业化 | 关键差异
+```
 
-- `product`、`official_url`、`video`
-- `basic_info`
-- `strengths_weaknesses`
-- `competitor_comparison`
-- `conclusion`
-- `consistency_check`（内部 QA，不发布到正文）
-- `skills_consulted`
-- `hv_analysis`
-- `diagrams`
-- `features`
+末尾写“竞争判断”，合并本产品竞争位置、优势、短板和关键约束。章末列来源。
 
-`features` 里至少保留：
+### 6.7 主要信息来源
+
+分为：
+
+- 官方信息
+- 非官方信息
+
+只列页面标题与直接 URL。
+
+### 6.8 反向生成速览
+
+速览必须从已完成正文中提炼：
+
+- 总体判断
+- 产品构成
+- 关键模块
+- 亮点
+- 短板
+- 综合竞争判断
+
+不要在速览中新增正文没有支持的事实或判断。
+
+## 7. `analysis_manifest.json`
+
+最低结构：
+
+```json
+{
+  "product": "",
+  "official_url": "",
+  "video": {},
+  "overview": {
+    "generated_after_body": true,
+    "overall_judgment": "",
+    "product_components": [],
+    "key_modules": [],
+    "strengths": [],
+    "limitations": [],
+    "competitive_judgment": ""
+  },
+  "basic_info": {},
+  "section_sources": {
+    "basic_info": [],
+    "product_intro": [],
+    "experience_flow": [],
+    "competitor_analysis": []
+  },
+  "source_registry": {
+    "official": [],
+    "non_official": []
+  },
+  "official_product_views": [],
+  "function_analysis": [],
+  "experience_flow": {
+    "steps": [],
+    "diagram": {},
+    "friction_points": [],
+    "feedback_loops": []
+  },
+  "competitor_analysis": {
+    "highlight_competitors": [],
+    "same_type_competitors": [],
+    "selection_rationale": [],
+    "competitive_judgment": ""
+  },
+  "screenshot_selection": {},
+  "skills_consulted": [],
+  "consistency_check": {}
+}
+```
+
+`function_analysis` 每项至少保留：
 
 - `id` / `title`
 - `timestamp_start` / `timestamp_end`
-- `screenshots`
-- `llm_safe_images`
+- `screenshots` / `llm_safe_images`
 - `observed_ui`
-- `confirmed_facts`
+- `experience_judgment`
 - `inferences`
-- `web_sources`
 - `confidence`
 
-关键规则：`observed_ui`、`confirmed_facts`、`inferences` 必须分开。
+功能分析不放 `confirmed_facts` 或 `web_sources`；需要网页确认的事实放到其他章节。
 
-## 7. 飞书发布（默认必须交付飞书）
+`screenshot_selection` 至少记录：
 
-默认必须飞书，并对所有 create / update 操作显式传 `--as user`。
+- `candidate_sources`
+- `selection_rules`
+- `cost_guardrail`
+- `rejected_patterns`
 
-发布前只做 3 件事：
+## 8. HTML 与飞书发布
 
-1. 先按 `reference_doc_structure.md` 检查模块是否齐全
-2. 再按 `diagram_workflow.md` 规划哪些地方必须补图
-3. 最后写飞书正文
+### 8.1 HTML
 
-### 7.1 正文顺序
+- 基于 `assets/notes_template.html`
+- 与飞书使用同一七章结构
+- 产品简介后使用并排产品全貌图
+- 事实型章节显示简短来源块
+- 文末按官方与非官方分组
 
-推荐顺序：
+### 8.2 飞书
 
-1. 一句话总结 Callout
-2. 基本信息
-3. 产品简介
-4. 核心功能体验
-5. 亮点与不足
-6. 竞品对比
-7. 结论与跟踪建议
+- 使用 `assets/feishu_template.xml` 作为模板源
+- 所有 create / update 命令显式传 `--api-version v2 --as user`
+- 图片放在所属章节，不能堆到文末
+- 并列图片使用 grid / 分栏
+- 体验流程图与竞品关系图优先画板
+- `docs +media-insert` 失败时重试，并用 `docs +fetch` 验证图片真实插入
 
-写正文时，再加这些约束：
-
-- **正文不能露出过程**：不要写 `【注意】`、工具使用说明、检索失败过程、一致性检查或 QA 表。
-- **关键数据必须具体**：融资 / 投资、用户规模、定价计划优先写数字、时间口径和来源；定价至少尝试补齐 3 个公开档位。
-- **产品简介要有结构**：使用 **产品定位** / **核心需求** / **主体验** / **当前阶段** 加粗锚点。
-- **核心功能体验必须有一句点评**：解释该功能的亮点或问题
-- **亮点 / 不足必须有证据支撑**：能回指到核心功能体验里的模块、截图或时间戳
-- **结论必须回到定位**：核心判断不能和基本信息里的产品定位冲突
-
-### 7.2 组件怎么选
-
-- **最重要结论** → `callout`
-- **结构化对照** → `lark-table`
-- **流程 / 关系 / 架构 / 能力地图** → `whiteboard`
-- **多张图并排比较** → `grid`
-- **外部原话引用** → `quote-container`
-
-不要用 callout 写 `【注意】` 或过程提醒。
-
-### 7.3 图片与图示规则
-
-- 图片必须放在所属功能的小节或所属表格行附近，不能堆到文档底部
-- 推荐顺序：**标题 → 图 / grid / 画板 → 图注 → 判断**
-- 单张截图也必须有短图注
-- 多步骤流程、前后对比、入口 / 结果、并列候选方案、竞品界面对比，必须用 2–4 张图做 `<grid>` / 分栏并排
-- 工作流 / 竞品关系 / 能力地图优先走飞书画板，不用静态拼图硬代替
-- 工作流图默认作为“核心功能体验”里的一个模块；竞品关系图放在“竞品对比”章节开头；能力地图可放在“核心功能体验”开头
-- 正式报告默认实际插入 **8–10 张截图**
-- 每个核心功能模块优先插入 **2 张图**：一张讲入口 / 输入，一张讲结果 / 编辑
-- 同一锚点多图时，优先用稳定顺序写入，不要靠人工拖动修位置
-- `docs +media-insert` 失败时必须重试，并在每次尝试后用 `docs +fetch` 校验图片名是否真实出现在文档 XML 里
-- 推荐直接使用 `scripts/insert_feishu_media_with_retry.py` 执行批量插图，避免“返回空 JSON 但文档状态不明”的灰色失败
-
-图注规则：
-
-- 要短、像标题补充，不要像审计备注
-- 推荐：`草图输入：粗糙轮廓也能转成更完整视觉方向`
-- 不推荐：`用于证明：草图模式允许用户手绘轮廓并生成结果`
-- 不写“来源：视频 / 用于证明 / 证据如下”这种过程话；必要的视频时间戳可放在图注末尾括号里
-
-标题规则：
-
-- 优先写“能力主题 / 设计取向 / 战略判断”
-- 少写“点击了什么 / 打开了什么 / 弹出了什么”这种动作标题
-- 如果标题太细，正文分析通常也会跟着变浅
-
-### 7.4 路径注意
-
-`docs +media-insert` 用相对路径；执行前先 `cd` 到图片目录。
-
-```bash
-cd /path/to/images && lark-cli docs +media-insert --doc "<DOC_ID>" --file ./shot.jpg --align center --caption "径向菜单：把专业工具栏游戏化"
-```
-
-推荐批量插图与重试：
+推荐插图：
 
 ```bash
 python3 "<skill_dir>/scripts/insert_feishu_media_with_retry.py" \
@@ -499,70 +380,6 @@ python3 "<skill_dir>/scripts/insert_feishu_media_with_retry.py" \
   --summary-out "<workdir>/feishu_media_insert_summary.json"
 ```
 
-`feishu_media_plan.json` 推荐字段：
+## 9. 最终 QA
 
-```json
-{
-  "doc_id": "doxcnxxxx",
-  "cwd": "/path/to/workdir",
-  "max_attempts": 4,
-  "validate_polls": 3,
-  "validate_wait_sec": 1.5,
-  "backoff_sec": 2.0,
-  "items": [
-    {
-      "file": "selected_screenshots/feature_radial_menu_0110.jpg",
-      "selection": "体验截图：径向菜单入口（00:01:09 - 00:01:19）",
-      "caption": "径向菜单：把专业工具栏游戏化（00:01:09）",
-      "align": "center",
-      "width": 1100
-    }
-  ]
-}
-```
-
-执行约束：
-
-- 单张图成功标准不是 CLI 返回 0，而是 `docs +fetch` 后文档内容里能找到对应 `<img name="...">`
-- 如果命令报错但插后校验通过，应记录为“校验成功的命令级失败”
-- 如果连续重试仍失败，必须把失败项记录到 summary，不要静默吞掉
-
-### 7.5 飞书不可用时
-
-如果权限不通、在线编辑开始混乱、token 刷新失败或排版持续失控：
-
-1. 先问用户：**要不要现在配置 / 刷新飞书 CLI？**
-2. 只有用户明确允许降级，才改成交付 `notes.html` 和本地证据资产
-
-换句话说：**默认是飞书，不是“飞书优先但随时静默退回 HTML”。**
-
-## 8. 最终 QA
-
-结束前确认：
-
-- 已覆盖 `reference_doc_structure.md` 的正式报告模块
-- 缺失项已明确写成“未找到 / 未核验 / 视频未展示”
-- 视频观察 / 网页确认 / 推断 已清晰分开
-- 由截图支撑的结论都带时间戳
-- 选中的截图是稳定画面，不是过渡态
-- `selected_screenshots/` 至少保留了 16 张候选稳定截图
-- `scripts/prepare_llm_images.py` 已跑过，发给模型的图只来自 `llm_images/`
-- `skills_consulted` 已记录实际使用 / 跳过 / unavailable
-- Tavily 已作为默认搜索入口实际执行；如果没有，已记录用户明确批准的降级原因
-- Tavily 没抓到的融资 / 投资、用户规模、价格 / 套餐 / 限制等关键事实，已继续用 WebSearch / `web.run` 补查
-- `analysis_manifest.json` 明确记录了 Tavily 与 WebSearch 的分工，而不是只写“已核验”
-- 图片没有被单独堆成一个“证据拆解”大章节；而是出现在对应功能位置
-- 图注简洁明了，没有大段“用于证明 / 来源 / 时间戳”式啰嗦说明
-- 正文整体符合 Wiki 模板，而不是取证清单
-- 飞书正文实际插入了 8–10 张截图；如果少于 8 张，已说明理由
-- HTML 与飞书保持相同的主结构：一句话总结 → 基本信息 → 产品简介 → 核心功能体验 → 亮点与不足 → 竞品对比 → 结论与跟踪建议
-- 核心功能体验按“小标题 → 简述 → 体验截图 → 截图描述 → 一句点评”展开
-- 基本信息里的“产品定位”和结论里的“核心判断”一致
-- 亮点 / 不足都能在核心功能体验里找到对应支撑
-- 一致性检查已在内部完成，但没有发布成正文章节
-- 公开正文没有 `【注意】`、工具执行过程或默认附录；如需来源，只列可访问 URL
-- 适用图示已按 `diagram_workflow.md` 放入对应章节
-- 本地目录里已生成 `notes.html` 与 `analysis_manifest.json`
-- 飞书文档已创建并拿到链接；如果没有，已记录用户明确批准的降级原因
-- 飞书插图已经过重试与插后校验；失败项已写入 `feishu_media_insert_summary.json`
-- 最终回复写明本地输出路径
+发布前逐项执行 `references/checklist.md`。公开正文中不得出现内部一致性检查、搜索过程、失败记录或工具说明。

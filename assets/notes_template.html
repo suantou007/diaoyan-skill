@@ -3,493 +3,218 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>竞品调研报告</title>
+  <title>产品竞品调研报告</title>
   <style>
     :root {
-      --bg: #f4efe8;
-      --panel: rgba(255, 252, 247, 0.92);
-      --panel-strong: #fffdf9;
-      --ink: #1f1a17;
-      --muted: #6d6258;
-      --line: rgba(61, 44, 28, 0.14);
-      --accent: #7a3f1d;
-      --accent-soft: rgba(122, 63, 29, 0.10);
-      --shadow: 0 18px 60px rgba(45, 31, 18, 0.08);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --content-width: 1180px;
+      --ink: #17202a;
+      --muted: #65717e;
+      --line: #dce3ea;
+      --soft: #f4f7fa;
+      --panel: #ffffff;
+      --green: #0c8a55;
+      --blue: #2368a2;
+      --red: #a13a38;
+      --max: 1160px;
     }
-
     * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(122, 63, 29, 0.08), transparent 28%),
-        linear-gradient(180deg, #f8f4ee 0%, var(--bg) 100%);
       color: var(--ink);
-      font-family: "Avenir Next", "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif;
-      line-height: 1.7;
+      background: #eef2f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
     }
-
-    .shell {
-      width: min(var(--content-width), calc(100vw - 40px));
-      margin: 0 auto;
-      padding: 28px 0 80px;
-    }
-
+    a { color: var(--blue); overflow-wrap: anywhere; }
+    .shell { width: min(var(--max), calc(100vw - 32px)); margin: 0 auto; padding: 28px 0 72px; }
     .hero {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 24px;
-      padding: 30px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
+      padding: 32px;
+      background: #17202a;
+      color: #fff;
+      border-radius: 8px;
     }
-
-    .eyebrow {
-      display: inline-flex;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    h1, h2, h3 {
-      margin: 0;
-      line-height: 1.12;
-      font-family: "Iowan Old Style", "Palatino Linotype", "Songti SC", serif;
-      letter-spacing: -0.02em;
-    }
-
-    h1 {
-      font-size: clamp(40px, 6vw, 72px);
-      margin-bottom: 16px;
-    }
-
-    h2 {
-      font-size: clamp(26px, 3.2vw, 36px);
-      margin-bottom: 16px;
-    }
-
-    h3 {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-
-    .hero-summary {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 52ch;
-    }
-
-    .meta-panel,
-    .card,
-    .callout,
-    .figure-frame,
-    .diagram-block {
-      background: var(--panel-strong);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-    }
-
-    .meta-panel {
-      padding: 22px;
-      display: grid;
-      gap: 12px;
-      align-self: stretch;
-    }
-
-    .meta-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      font-size: 14px;
-      border-bottom: 1px dashed var(--line);
-      padding-bottom: 10px;
-    }
-
-    .meta-row:last-child {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
-      gap: 24px;
-      margin-top: 28px;
-      align-items: start;
-    }
-
+    .hero h1 { margin: 0 0 10px; font-size: 36px; letter-spacing: 0; }
+    .hero p { margin: 0; color: #d5dde5; max-width: 76ch; }
+    .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; margin-top: 20px; }
     .toc {
       position: sticky;
-      top: 20px;
-      padding: 18px;
-      background: rgba(255, 252, 247, 0.72);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      backdrop-filter: blur(8px);
-    }
-
-    .toc h3 {
-      font-size: 16px;
-      margin-bottom: 14px;
-      font-family: inherit;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .toc a {
-      display: block;
-      padding: 8px 0;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .toc a:hover {
-      color: var(--accent);
-    }
-
-    .report {
-      display: grid;
-      gap: 20px;
-    }
-
-    .section {
-      padding: 28px;
+      top: 16px;
+      align-self: start;
+      padding: 16px;
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
+      border-radius: 8px;
     }
-
-    .lead {
-      font-size: 17px;
-      color: var(--muted);
-      margin-top: 10px;
+    .toc strong { display: block; margin-bottom: 8px; }
+    .toc a { display: block; padding: 6px 0; color: var(--muted); text-decoration: none; font-size: 14px; }
+    .report { display: grid; gap: 18px; }
+    .section {
+      padding: 26px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
     }
-
-    .callout {
-      padding: 18px 20px;
-      margin-top: 18px;
-      background: linear-gradient(180deg, rgba(122, 63, 29, 0.07), rgba(255,255,255,0.92));
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border: 1px solid rgba(122, 63, 29, 0.12);
-    }
-
-    .feature-grid {
-      display: grid;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .card {
-      padding: 22px;
-    }
-
-    .feature-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 12px 0 14px;
-    }
-
-    .timestamp {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f1e3d8;
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .figure-frame {
-      overflow: hidden;
-      margin: 0 0 16px;
-      padding: 10px;
-    }
-
-    .figure-frame img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-    }
-
-    .figure-grid {
+    h2 { margin: 0 0 14px; font-size: 25px; letter-spacing: 0; }
+    h3 { margin: 22px 0 10px; font-size: 18px; letter-spacing: 0; }
+    p { margin: 8px 0 12px; }
+    .overview {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
-      margin-bottom: 16px;
     }
-
-    .evidence-columns {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    .evidence-box {
-      padding: 14px;
-      border-radius: var(--radius-md);
-      background: #fff;
-      border: 1px solid var(--line);
-    }
-
-    .evidence-box strong {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--accent);
-      font-size: 13px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .diagram-block {
-      padding: 18px;
-      margin-top: 18px;
-    }
-
-    .diagram-placeholder {
-      min-height: 260px;
+    .overview-block { padding: 14px; background: var(--soft); border-left: 3px solid var(--green); }
+    .overview-block strong { display: block; margin-bottom: 5px; }
+    .source-box { margin-top: 18px; padding: 12px 14px; background: var(--soft); border-left: 3px solid var(--blue); font-size: 13px; }
+    .source-box strong { display: block; margin-bottom: 5px; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--soft); }
+    .image-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 16px 0; }
+    figure { margin: 0; border: 1px solid var(--line); background: #fbfcfd; }
+    figure img { display: block; width: 100%; height: auto; }
+    .image-placeholder {
+      min-height: 220px;
       display: grid;
       place-items: center;
-      border: 1px dashed rgba(122, 63, 29, 0.26);
-      border-radius: 16px;
+      padding: 18px;
       color: var(--muted);
-      background: repeating-linear-gradient(
-        -45deg,
-        rgba(122, 63, 29, 0.03),
-        rgba(122, 63, 29, 0.03) 12px,
-        rgba(255,255,255,0.9) 12px,
-        rgba(255,255,255,0.9) 24px
-      );
+      background: repeating-linear-gradient(-45deg, #f7f9fb, #f7f9fb 12px, #eef2f5 12px, #eef2f5 24px);
+      text-align: center;
     }
-
-    .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 16px;
-      overflow: hidden;
-      border-radius: 16px;
-    }
-
-    .compare-table th,
-    .compare-table td {
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    .compare-table th {
-      background: #ede1d4;
-      color: var(--accent);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .footer-note {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    @media (max-width: 980px) {
-      .hero,
-      .layout,
-      .evidence-columns {
-        grid-template-columns: 1fr;
-      }
-
-      .toc {
-        position: static;
-      }
-
-      .figure-grid {
-        grid-template-columns: 1fr;
-      }
+    figcaption { padding: 8px 10px 10px; color: var(--muted); font-size: 13px; }
+    .feature { padding: 18px 0; border-top: 1px solid var(--line); }
+    .feature:first-of-type { border-top: 0; }
+    .judgment { padding: 11px 13px; background: var(--soft); border-left: 3px solid var(--green); }
+    .flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 16px 0; }
+    .flow div { padding: 12px 8px; background: var(--soft); text-align: center; font-size: 13px; }
+    .source-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .source-column { padding: 16px; background: var(--soft); }
+    @media (max-width: 820px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { position: static; }
+      .overview, .image-grid, .source-columns { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="shell">
     <header class="hero">
-      <div>
-        <span class="eyebrow">Competitor Research</span>
-        <h1>产品名 / 竞品调研报告</h1>
-        <p class="hero-summary">
-          一句话判断：这里写最重要的竞争判断。不是中性介绍，而是帮助读者快速理解这个产品值不值得重视。
-        </p>
-        <div class="pill-row">
-          <span class="pill">视频调研</span>
-          <span class="pill">网页核验</span>
-          <span class="pill">证据型拆解</span>
-        </div>
-      </div>
-      <aside class="meta-panel">
-        <div class="meta-row"><span>分析对象</span><strong>产品名</strong></div>
-        <div class="meta-row"><span>分析日期</span><strong>2026-05-27</strong></div>
-        <div class="meta-row"><span>官方链接</span><strong>example.com</strong></div>
-        <div class="meta-row"><span>来源视频</span><strong>demo.mp4</strong></div>
-        <div class="meta-row"><span>交付类型</span><strong>HTML / Feishu</strong></div>
-      </aside>
+      <h1>产品名 / 竞品调研报告</h1>
+      <p>基于产品录屏与公开信息，拆解产品能力、完整体验流程与竞争位置。</p>
     </header>
 
     <div class="layout">
       <nav class="toc">
-        <h3>目录</h3>
-        <a href="#summary">一句话总结</a>
-        <a href="#basic-info">基本信息</a>
+        <strong>目录</strong>
+        <a href="#overview">速览结论</a>
+        <a href="#basic-info">基本信息与关键数据</a>
         <a href="#intro">产品简介</a>
-        <a href="#features">核心功能体验</a>
-        <a href="#pros-cons">亮点与不足</a>
-        <a href="#comparison">竞品对比</a>
-        <a href="#conclusion">结论与跟踪建议</a>
-        <a href="#consistency">一致性检查</a>
-        <a href="#sources">附录：信息来源</a>
+        <a href="#functions">功能分析</a>
+        <a href="#flow">体验流程分析</a>
+        <a href="#competitors">竞品分析</a>
+        <a href="#sources">主要信息来源</a>
       </nav>
 
-      <article class="report">
-        <section id="summary" class="section">
-          <h2>一句话总结</h2>
-          <p class="lead">{一句话定位} · {一句话亮点} · {一句话现状描述}</p>
-          <div class="callout">
-            <strong>核心亮点：</strong>这里写最重要的产品亮点，并确保能在核心功能体验里找到支撑。
+      <main class="report">
+        <section id="overview" class="section">
+          <h2>速览结论</h2>
+          <div class="overview">
+            <div class="overview-block"><strong>总体判断</strong>正文全部完成后，从全文反向提炼产品定位、目标用户与竞争位置。</div>
+            <div class="overview-block"><strong>产品构成</strong>列出社区、创作工具、终端或主要产品组成。</div>
+            <div class="overview-block"><strong>关键模块</strong>列出最值得理解的 2 至 4 个模块。</div>
+            <div class="overview-block"><strong>亮点</strong>列出有正文支撑的 2 至 3 条亮点。</div>
+            <div class="overview-block"><strong>短板</strong>列出有正文支撑的 2 至 3 条短板。</div>
+            <div class="overview-block"><strong>综合竞争判断</strong>说明潜力、关键前提与核心约束。</div>
           </div>
         </section>
 
         <section id="basic-info" class="section">
-          <h2>基本信息</h2>
-          <div class="pill-row">
-            <span class="pill">目标用户：B 端创作者</span>
-            <span class="pill">定位：工作流平台</span>
-            <span class="pill">阶段：增长中</span>
-          </div>
+          <h2>基本信息与关键数据</h2>
+          <table>
+            <thead><tr><th>项目</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td>产品名</td><td>产品名</td></tr>
+              <tr><td>所属公司 / 团队</td><td>公司、团队与关键背景</td></tr>
+              <tr><td>上线时间</td><td>YYYY.MM</td></tr>
+              <tr><td>平台</td><td>Web / iOS / Android / 小程序等</td></tr>
+              <tr><td>产品定位</td><td>一句话定位</td></tr>
+              <tr><td>目标用户</td><td>一句话用户画像</td></tr>
+              <tr><td>融资 / 投资</td><td>金额、轮次、时间、投资方</td></tr>
+              <tr><td>用户规模</td><td>具体数字与时间口径</td></tr>
+              <tr><td>定价计划</td><td>档位、价格、周期、额度与限制</td></tr>
+              <tr><td>官网 / 下载</td><td>直接链接</td></tr>
+            </tbody>
+          </table>
+          <div class="source-box"><strong>本节来源</strong><a href="https://example.com">页面标题</a></div>
         </section>
 
         <section id="intro" class="section">
           <h2>产品简介</h2>
-          <p class="lead">用 150–250 字说明这是什么产品、解决什么需求、主体验是什么、当前所处阶段。</p>
-        </section>
-
-        <section id="features" class="section">
-          <h2>核心功能体验</h2>
-          <p class="lead">每个功能模块遵循同一顺序：小标题 → 简述 → 体验截图 → 截图描述 → 一句点评。</p>
-
-          <div class="feature-grid">
-            <section class="card">
-              <h3>功能标题 01</h3>
-              <div class="feature-meta">
-                <span class="timestamp">00:01:24 - 00:01:42</span>
-              </div>
-              <figure class="figure-frame">
-                <img src="./selected_screenshots/01_feature.jpg" alt="功能截图">
-              </figure>
-              <p><strong>简述：</strong>2–4 句话讲清楚功能干什么、怎么用、关键交互。</p>
-              <p><strong>截图描述：</strong>说明读者应该看见什么。</p>
-              <p><strong>一句点评：</strong>亮点或问题在哪里。</p>
-            </section>
-
-            <section class="card">
-              <h3>多步骤流程示例</h3>
-              <div class="feature-meta">
-                <span class="timestamp">00:03:10 - 00:03:46</span>
-              </div>
-              <div class="figure-grid">
-                <figure class="figure-frame"><img src="./selected_screenshots/02_step_1.jpg" alt=""></figure>
-                <figure class="figure-frame"><img src="./selected_screenshots/02_step_2.jpg" alt=""></figure>
-              </div>
-              <p>多步骤流程优先使用图片组，并放在正文解释之前。</p>
-            </section>
+          <p><strong>产品定位：</strong>这是什么产品。</p>
+          <p><strong>核心需求：</strong>解决什么需求。</p>
+          <p><strong>主体验：</strong>用户主要如何使用。</p>
+          <p><strong>当前阶段：</strong>发展、融资、商业化或市场状态。</p>
+          <h3>产品全貌</h3>
+          <div class="image-grid">
+            <figure><div class="image-placeholder" data-src="./official_product_views/homepage.jpg">官网首页截图</div><figcaption>官网首页：展示产品定位和主要价值。</figcaption></figure>
+            <figure><div class="image-placeholder" data-src="./official_product_views/editor.jpg">编辑器首页截图</div><figcaption>编辑器首页：展示核心创作工作台。</figcaption></figure>
           </div>
+          <div class="source-box"><strong>本节来源</strong><a href="https://example.com">官网首页</a></div>
         </section>
 
-        <section id="pros-cons" class="section">
-          <h2>亮点与不足</h2>
-          <p class="lead">每条 1 句话，总数控制在 6 条以内，并能回指到核心功能体验。</p>
+        <section id="functions" class="section">
+          <h2>功能分析</h2>
+          <p>本章只依据录屏，截图必须准确匹配所分析功能。</p>
+          <article class="feature">
+            <h3>功能主题 A</h3>
+            <p><strong>功能说明：</strong>用户做什么、关键交互是什么、系统如何反馈。</p>
+            <div class="image-grid">
+              <figure><div class="image-placeholder" data-src="./selected_screenshots/function_a_entry.jpg">功能入口截图</div><figcaption>功能入口：准确展示进入方式。</figcaption></figure>
+              <figure><div class="image-placeholder" data-src="./selected_screenshots/function_a_result.jpg">功能结果截图</div><figcaption>功能结果：准确展示反馈状态。</figcaption></figure>
+            </div>
+            <p class="judgment"><strong>体验判断：</strong>该功能的亮点、摩擦或限制。</p>
+          </article>
         </section>
 
-        <section id="comparison" class="section">
-          <h2>竞品对比</h2>
-          <table class="compare-table">
-            <thead>
-              <tr>
-                <th>产品</th>
-                <th>定位</th>
-                <th>目标用户</th>
-                <th>AI 能力</th>
-                <th>与本产品的差异点</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>本产品</td>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-              </tr>
-            </tbody>
+        <section id="flow" class="section">
+          <h2>体验流程分析</h2>
+          <div class="flow">
+            <div>入口与 onboarding</div>
+            <div>输入或创建</div>
+            <div>生成或处理</div>
+            <div>编辑与反馈</div>
+            <div>导出或分享</div>
+          </div>
+          <p><strong>关键摩擦点：</strong>等待、跳转、付费点、失败反馈或学习成本。</p>
+          <p><strong>反馈机制：</strong>系统如何帮助用户判断进度、质量与下一步。</p>
+          <div class="source-box"><strong>本节来源</strong><a href="https://example.com">流程相关官方页面</a></div>
+        </section>
+
+        <section id="competitors" class="section">
+          <h2>竞品分析</h2>
+          <h3>亮点对标竞品</h3>
+          <table>
+            <thead><tr><th>产品</th><th>对标亮点</th><th>实现方式</th><th>用户价值</th><th>本产品差距 / 优势</th><th>可借鉴点</th></tr></thead>
+            <tbody><tr><td>亮点竞品 A</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr><tr><td>亮点竞品 B</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody>
           </table>
-        </section>
-
-        <section id="conclusion" class="section">
-          <h2>结论与跟踪建议</h2>
-          <p><strong>核心判断：</strong>一句话。</p>
-          <p><strong>值得持续跟踪的变量：</strong>2–3 条。</p>
-        </section>
-
-        <section id="consistency" class="section">
-          <h2>一致性检查</h2>
-          <div class="callout">
-            <p>检查“产品定位”和“核心判断”是否一致；亮点 / 不足是否能在核心功能体验里找到支撑。</p>
-          </div>
+          <h3>同类型竞品</h3>
+          <table>
+            <thead><tr><th>产品</th><th>定位与用户</th><th>平台与场景</th><th>核心流程</th><th>内容生态</th><th>商业化</th><th>关键差异</th></tr></thead>
+            <tbody><tr><td>同类型竞品 A</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr><tr><td>同类型竞品 B</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody>
+          </table>
+          <p class="judgment"><strong>竞争判断：</strong>综合说明本产品的竞争位置、优势、短板与关键约束。</p>
+          <div class="source-box"><strong>本节来源</strong><a href="https://example.com">竞品官方页面</a></div>
         </section>
 
         <section id="sources" class="section">
-          <h2>附录：信息来源</h2>
-          <p>体验视频、外部检索关键词、官方页面、其他参考。</p>
+          <h2>主要信息来源</h2>
+          <div class="source-columns">
+            <div class="source-column"><h3>官方信息</h3><p><a href="https://example.com">官方页面标题</a></p></div>
+            <div class="source-column"><h3>非官方信息</h3><p><a href="https://example.com/article">媒体或第三方页面标题</a></p></div>
+          </div>
         </section>
-      </article>
+      </main>
     </div>
   </div>
 </body>
