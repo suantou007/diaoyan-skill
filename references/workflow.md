@@ -6,7 +6,7 @@
 - 图示、产品全貌图和竞品关系图：`diagram_workflow.md`
 - 发布前检查：`checklist.md`
 
-正式报告必须先完成正文第 2 至第 7 章，再根据全文反向生成开头速览。
+正式报告必须先完成正文第 2 至第 6 章，再根据全文反向生成开头速览。
 
 ## 2. Intake 与工具检查
 
@@ -17,6 +17,13 @@
 - 用户最关心的问题
 - `tvly` 是否可用
 - `lark-cli auth status` 是否可正常发布飞书
+
+产品名规则：
+
+- 如果产品名由用户明确提供，直接沿用
+- 如果产品名来自录屏 UI、logo、水印、网页线索、文件名推断或语音转写猜测，必须先向用户确认
+- 未确认前，只能在内部记录里标记为 `tentative`，不能直接写入飞书标题、`notes.html` 标题或基本信息表
+- 遇到同名产品冲突、检索污染或名称可读性不足时，暂停正式发布，先补向用户确认这一步
 
 默认链路是 Tavily + 飞书。任何一项不可用时，先询问用户是否安装、配置或刷新；只有用户明确同意，才能降级。
 
@@ -173,7 +180,7 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
 - 来源链接就近嵌入对应句子、数字或表格单元格，锚文本使用可读页面名或“融资公告 / 定价页 / 官方文档”等短名称
 - 不生成统一来源尾注，不在正文堆裸 URL
 - 模板中的 `example.com` 链接只用于展示嵌入方式；正式报告必须替换为实际使用的链接，未使用资料时直接删除
-- 功能分析只依据录屏，不强行补网页来源
+- 体验流程中的能力判断只依据录屏，不强行补网页来源
 
 ### 5.3 产品全貌图
 
@@ -189,16 +196,15 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
 
 ## 6. 正文生成
 
-### 6.1 必须先写第 2 至第 7 章
+### 6.1 必须先写第 2 至第 6 章
 
 按以下顺序生成草稿：
 
 1. 基本信息与关键数据
 2. 产品简介与产品全貌图
-3. 功能分析
-4. 体验流程分析
-5. 竞品分析
-6. 主要信息来源
+3. 体验流程分析
+4. 竞品分析
+5. 主要信息来源
 
 完成后做内部一致性检查，再反向生成“速览结论”并放在最前。
 
@@ -214,9 +220,15 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
 - 简介后立即放产品全貌截图 grid
 - 若事实来自资料查询，在对应句子后嵌入简短来源超链接
 
-### 6.4 功能分析
+### 6.4 体验流程分析
 
-只依据录屏，写 3 至 6 个能力主题。每个主题采用：
+默认路径：
+
+```text
+入口与 onboarding → 输入或创建 → 生成或处理 → 编辑与反馈 → 导出或分享
+```
+
+交付至少包含一张流程图或流程表，并在主流程下归并 3 至 6 个关键能力主题。每个主题采用：
 
 ```text
 小标题
@@ -225,43 +237,26 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
 体验判断：亮点、摩擦或限制
 ```
 
-禁止：
+规则：
 
-- 把官网宣传口径当作录屏观察
-- 用无关或模糊截图支撑功能判断
-- 为了形式完整而附网页来源
+- 录屏观察不附来源；网页补充事实在对应步骤或判断后嵌入简短超链接
+- 不把官网宣传口径当作录屏观察
+- 不用无关或模糊截图支撑功能判断
+- 图注只写界面角色、输入输出或体验含义，不写 `00:01:10` 这类显式时间
 
-### 6.5 体验流程分析
-
-默认路径：
-
-```text
-入口与 onboarding → 输入或创建 → 生成或处理 → 编辑与反馈 → 导出或分享
-```
-
-交付至少包含一张流程图或流程表。分析关键反馈、等待、跳转、付费点和摩擦点。录屏观察不附来源；网页补充事实在对应步骤或判断后嵌入简短超链接。
-
-### 6.6 竞品分析
+### 6.5 竞品分析
 
 #### 选择流程
 
-1. 从功能分析与体验流程中提炼本产品 1 至 2 个核心亮点
-2. 为每个亮点选择一个最能代表该亮点的竞品，共 2 个
-3. 选择 2 个最直接的同类型竞品
-4. 优先四个产品互不重复；必须重叠时说明原因
+1. 如果用户提供 Base / bitable / 表格竞品池，先在池内筛选候选
+2. 从本产品体验流程中提炼 2 至 4 个最值得比较的竞争维度
+3. 选择 3 至 4 个最相关竞品，优先直接竞争关系和资料完整度
+4. 用户提供的竞品池不足时，再补 Tavily / WebSearch / `web.run`
 
-#### 两组表格
-
-亮点对标竞品：
+#### 竞品表格
 
 ```text
-产品 | 对标亮点 | 实现方式 | 用户价值 | 本产品差距 / 优势 | 可借鉴点
-```
-
-同类型竞品：
-
-```text
-产品 | 定位与用户 | 平台与场景 | 核心流程 | 内容生态 | 商业化 | 关键差异
+产品 | 产品定位 | 用户画像 | 功能概述 | 差距 / 优势 | 可借鉴点
 ```
 
 末尾写“竞争判断”，合并本产品竞争位置、优势、短板和关键约束。竞品资料链接嵌入对应产品名、数据或表格单元格。
@@ -315,10 +310,11 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
   },
   "source_registry": {
     "official": [],
-    "non_official": []
+    "non_official": [],
+    "internal": []
   },
   "official_product_views": [],
-  "function_analysis": [],
+  "experience_modules": [],
   "experience_flow": {
     "steps": [],
     "diagram": {},
@@ -326,8 +322,7 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
     "feedback_loops": []
   },
   "competitor_analysis": {
-    "highlight_competitors": [],
-    "same_type_competitors": [],
+    "competitors": [],
     "selection_rationale": [],
     "competitive_judgment": ""
   },
@@ -337,9 +332,10 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
 }
 ```
 
-`function_analysis` 每项至少保留：
+`experience_modules` 每项至少保留：
 
 - `id` / `title`
+- `flow_stage`
 - `timestamp_start` / `timestamp_end`
 - `screenshots` / `llm_safe_images`
 - `observed_ui`
@@ -347,7 +343,18 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
 - `inferences`
 - `confidence`
 
-功能分析不放 `confirmed_facts` 或 `web_sources`；需要网页确认的事实放到其他章节。
+`experience_modules` 不放 `confirmed_facts` 或 `web_sources`；需要网页确认的事实放到其他章节。
+
+`competitor_analysis.competitors` 每项至少保留：
+
+- `product` / `product_url`
+- `record_id` 或其他候选来源标识
+- `product_positioning`
+- `user_persona`
+- `feature_overview`
+- `gap_or_advantage`
+- `learnings`
+- `supporting_sources`
 
 `section_sources` 只用于内部追溯每章使用了哪些 `source_registry` 条目，不直接渲染成正文统一尾注。正文中的来源必须按需就近嵌入具体事实。
 
@@ -363,7 +370,7 @@ python3 "<skill_dir>/scripts/prepare_llm_images.py" --workdir "<workdir>"
 ### 8.1 HTML
 
 - 基于 `assets/notes_template.html`
-- 与飞书使用同一七章结构
+- 与飞书使用同一六章结构
 - 产品简介后使用并排产品全貌图
 - 外部资料事实按需就近嵌入简短超链接，不生成统一来源尾注
 - 文末按官方与非官方分组

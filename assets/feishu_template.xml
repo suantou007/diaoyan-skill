@@ -1,15 +1,15 @@
 <title>产品调研文档模板</title>
-<h2>速览结论</h2>
+<h2>1. 速览结论</h2>
 <callout emoji="💡" background-color="light-blue" border-color="blue">
   <p><b>总体判断：</b>正文全部完成后，从全文反向提炼产品定位、目标用户与竞争位置。</p>
-  <p><b>产品构成：</b>列出社区、创作工具、终端或主要产品组成。</p>
+  <p><b>产品构成：</b>列出最关键的产品形态、创作界面、社区或终端组成。</p>
   <p><b>关键模块：</b>列出最值得理解的 2 至 4 个模块。</p>
   <p><b>亮点：</b>列出有正文支撑的 2 至 3 条亮点。</p>
   <p><b>短板：</b>列出有正文支撑的 2 至 3 条短板。</p>
-  <p><b>综合竞争判断：</b>说明潜力、关键前提与核心约束。</p>
+  <p><b>综合竞争判断：</b>说明产品潜力、关键前提与核心约束。</p>
 </callout>
 <hr/>
-<h2>基本信息与关键数据</h2>
+<h2>2. 基本信息与关键数据</h2>
 <table>
   <colgroup><col width="150"/><col width="520"/></colgroup>
   <thead><tr><th background-color="light-gray">项目</th><th background-color="light-gray">内容</th></tr></thead>
@@ -27,53 +27,67 @@
   </tbody>
 </table>
 <hr/>
-<h2>产品简介</h2>
-<p><b>产品定位：</b>这是什么产品。</p>
-<p><b>核心需求：</b>解决什么需求。</p>
-<p><b>主体验：</b>用户主要如何使用。</p>
+<h2>3. 产品简介</h2>
+<p><b>产品定位：</b>这是什么产品，核心价值是什么。</p>
+<p><b>核心需求：</b>目标用户为什么需要它，主要被什么门槛拦住。</p>
+<p><b>主体验：</b>用户主要如何完成创作、编辑或消费。</p>
 <p><b>当前阶段：</b>发展、融资、商业化或市场状态（<a href="https://example.com/announcement">官方公告</a>）。</p>
 <h3>产品全貌</h3>
 <grid>
-  <column width-ratio="0.5"><p>[官网首页截图]</p><p>官网首页：展示产品定位和主要价值。</p></column>
-  <column width-ratio="0.5"><p>[编辑器首页截图]</p><p>编辑器首页：展示核心创作工作台。</p></column>
+  <column width-ratio="0.5"><p>下图展示产品全貌图 A。</p></column>
+  <column width-ratio="0.5"><p>下图展示产品全貌图 B。</p></column>
 </grid>
 <hr/>
-<h2>功能分析</h2>
-<p>本章只依据录屏，不做网页交叉验证；每条功能判断必须由准确匹配的截图支撑。</p>
-<h3>4.1 {功能主题 A}</h3>
-<p><b>功能说明：</b>用户做什么、关键交互是什么、系统如何反馈。</p>
-<grid>
-  <column width-ratio="0.5"><p>[功能入口截图]</p><p>功能入口：准确展示进入方式。</p></column>
-  <column width-ratio="0.5"><p>[功能结果截图]</p><p>功能结果：准确展示反馈状态。</p></column>
-</grid>
-<p><b>体验判断：</b>该功能的亮点、摩擦或限制。</p>
-<h3>4.2 {功能主题 B}</h3>
-<p>按需继续，通常保留 3 至 6 个能力主题。</p>
-<hr/>
-<h2>体验流程分析</h2>
+<h2>4. 体验流程分析</h2>
 <whiteboard type="mermaid">flowchart LR
   A[入口与 onboarding] --> B[输入或创建]
   B --> C[生成或处理]
   C --> D[编辑与反馈]
   D --> E[导出或分享]</whiteboard>
-<p><b>关键摩擦点：</b>等待、跳转、付费点、失败反馈或学习成本。</p>
-<p><b>反馈机制：</b>系统如何帮助用户判断进度、质量与下一步；若补充了公开资料，在事实附近嵌入链接，例如 <a href="https://example.com/help">官方帮助</a>。</p>
-<hr/>
-<h2>竞品分析</h2>
-<p>默认选择 2 个亮点对标竞品和 2 个同类型竞品，优先四个产品互不重复。</p>
-<h3>亮点对标竞品</h3>
+<p><b>流程概述：</b>用一句话概括完整路径，并说明产品把哪些关键能力归并在主流程中。</p>
+<h3>4.1 关键能力主题 A</h3>
+<p><b>功能说明：</b>用户做什么、关键交互是什么、系统如何反馈。</p>
+<grid>
+  <column width-ratio="0.5"><p>下图展示能力主题 A 的入口界面。</p></column>
+  <column width-ratio="0.5"><p>下图展示能力主题 A 的结果或编辑状态。</p></column>
+</grid>
+<p><b>体验判断：</b>该能力主题的亮点、摩擦或限制。</p>
+<h3>4.2 关键能力主题 B</h3>
+<p><b>功能说明：</b>继续补 3 至 6 个能力主题，覆盖输入、生成、编辑与输出等关键阶段。</p>
+<grid>
+  <column width-ratio="0.5"><p>下图展示能力主题 B 的关键界面。</p></column>
+  <column width-ratio="0.5"><p>下图展示能力主题 B 的反馈或对比结果。</p></column>
+</grid>
+<p><b>体验判断：</b>说明该能力主题如何帮助用户推进流程，以及主要摩擦点。</p>
 <table>
-  <thead><tr><th background-color="light-gray">产品</th><th background-color="light-gray">对标亮点</th><th background-color="light-gray">实现方式</th><th background-color="light-gray">用户价值</th><th background-color="light-gray">本产品差距 / 优势</th><th background-color="light-gray">可借鉴点</th></tr></thead>
-  <tbody><tr><td><a href="https://example.com/competitor-a">亮点竞品 A</a></td><td></td><td><a href="https://example.com/competitor-a/docs">官方文档</a></td><td></td><td></td><td></td></tr><tr><td>亮点竞品 B</td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+  <thead><tr><th background-color="light-gray">步骤</th><th background-color="light-gray">录屏证据</th><th background-color="light-gray">关键反馈</th><th background-color="light-gray">摩擦点</th></tr></thead>
+  <tbody>
+    <tr><td>入口与 onboarding</td><td></td><td></td><td></td></tr>
+    <tr><td>输入或创建</td><td></td><td></td><td></td></tr>
+    <tr><td>生成或处理</td><td></td><td></td><td></td></tr>
+    <tr><td>编辑与反馈</td><td></td><td></td><td></td></tr>
+    <tr><td>导出或分享</td><td>视频未展示 / 官方资料补充</td><td></td><td></td></tr>
+  </tbody>
 </table>
-<h3>同类型竞品</h3>
-<table>
-  <thead><tr><th background-color="light-gray">产品</th><th background-color="light-gray">定位与用户</th><th background-color="light-gray">平台与场景</th><th background-color="light-gray">核心流程</th><th background-color="light-gray">内容生态</th><th background-color="light-gray">商业化</th><th background-color="light-gray">关键差异</th></tr></thead>
-  <tbody><tr><td>同类型竞品 A</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>同类型竞品 B</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
-</table>
-<callout emoji="📌" background-color="light-green" border-color="green"><p><b>竞争判断：</b>综合说明本产品的竞争位置、优势、短板与关键约束。</p></callout>
+<p><b>关键摩擦点：</b>总结等待、跳转、学习成本、付费点或缺失环节。</p>
+<p><b>反馈机制：</b>说明系统如何帮助用户判断进度、质量与下一步；若补充了公开资料，在事实附近嵌入链接，例如 <a href="https://example.com/help">官方帮助</a>。</p>
 <hr/>
-<h2>主要信息来源</h2>
+<h2>5. 竞品分析</h2>
+<p>优先从用户提供的 Base / bitable / 表格竞品池中选择 3 至 4 个最相关竞品，并说明选择理由。</p>
+<p><b>选择理由：</b>用一句话解释为什么这 3 至 4 个竞品最能覆盖本产品的关键竞争维度。</p>
+<table>
+  <thead><tr><th background-color="light-gray">产品</th><th background-color="light-gray">产品定位</th><th background-color="light-gray">用户画像</th><th background-color="light-gray">功能概述</th><th background-color="light-gray">差距 / 优势</th><th background-color="light-gray">可借鉴点</th></tr></thead>
+  <tbody>
+    <tr><td><a href="https://example.com/competitor-a">竞品 A</a></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><a href="https://example.com/competitor-b">竞品 B</a></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>竞品 C</td><td></td><td></td><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+<callout emoji="📌" background-color="light-green" border-color="green">
+  <p><b>竞争判断：</b>综合说明本产品的竞争位置、优势、短板与关键约束。</p>
+</callout>
+<hr/>
+<h2>6. 主要信息来源</h2>
 <grid>
   <column width-ratio="0.5"><h3>官方信息</h3><ul><li><a href="https://example.com">官方页面标题</a></li></ul></column>
   <column width-ratio="0.5"><h3>非官方信息</h3><ul><li><a href="https://example.com/article">媒体或第三方页面标题</a></li></ul></column>
